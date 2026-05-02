@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visual Inspiration — Discover & Save</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg vi-navbar" id="mainNav">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand vi-logo" href="index.html">
+        <span class="logo-mark">VI</span>
+        <span class="logo-text">Visual<em>Inspiration</em></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="pages/explore.html">Explore</a></li>
+          <li class="nav-item"><a class="nav-link" href="pages/collections.html">Collections</a></li>
+          <li class="nav-item"><a class="nav-link" href="pages/foryou.html">For You</a></li>
+        </ul>
+        <div class="nav-actions d-flex align-items-center gap-3">
+          <a href="pages/login.html" class="btn-ghost">Sign in</a>
+          <a href="pages/register.html" class="btn-primary-vi">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="hero-bg-grid"></div>
+    <div class="container text-center hero-content">
+      <div class="hero-badge mb-4">✦ Discover the world's visual stories</div>
+      <h1 class="hero-title">Find inspiration<br /><span class="accent-word">everywhere.</span></h1>
+      <p class="hero-sub">Search millions of curated images, build collections,<br class="d-none d-md-block" /> and grow a feed that thinks like you do.</p>
+
+      <div class="search-wrapper mt-5">
+        <div class="search-bar-home" id="homeSearchBar">
+          <i class="bi bi-search search-icon"></i>
+          <input type="text" id="homeSearchInput" placeholder="Search for landscapes, portraits, architecture…" autocomplete="off" />
+          <button class="upload-btn" id="uploadBtn" title="Search by image">
+            <i class="bi bi-camera"></i>
+          </button>
+          <button class="search-submit" id="homeSearchBtn">Search</button>
+        </div>
+        <div class="trending-tags mt-3">
+          <span class="tag-label">Trending:</span>
+          <button class="tag-chip" data-q="minimal architecture">Minimal Architecture</button>
+          <button class="tag-chip" data-q="nature macro">Nature Macro</button>
+          <button class="tag-chip" data-q="street photography">Street Photography</button>
+          <button class="tag-chip" data-q="abstract art">Abstract Art</button>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint"><i class="bi bi-chevron-down"></i></div>
+  </section>
+
+  <!-- FEATURED STRIP -->
+  <section class="featured-strip">
+    <div class="container-fluid px-4">
+      <div class="strip-inner" id="featuredStrip">
+        <!-- filled by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- TRENDING SECTION -->
+  <section class="section-block">
+    <div class="container-fluid px-4">
+      <div class="section-header d-flex align-items-center justify-content-between mb-4">
+        <div>
+          <h2 class="section-title">Trending Now</h2>
+          <p class="section-sub">What the world is saving today</p>
+        </div>
+        <a href="pages/explore.html" class="see-all-link">See all <i class="bi bi-arrow-right"></i></a>
+      </div>
+      <div class="masonry-grid" id="trendingGrid">
+        <!-- skeleton -->
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card tall"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card wide"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card tall"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY BUCKETS -->
+  <section class="section-block alt-bg">
+    <div class="container-fluid px-4">
+      <h2 class="section-title mb-4">Browse by Mood</h2>
+      <div class="mood-grid" id="moodGrid">
+        <div class="mood-card" data-q="calm minimalism">
+          <div class="mood-overlay">Calm & Minimal</div>
+        </div>
+        <div class="mood-card" data-q="vibrant urban">
+          <div class="mood-overlay">Vibrant Urban</div>
+        </div>
+        <div class="mood-card" data-q="dark moody portrait">
+          <div class="mood-overlay">Dark & Moody</div>
+        </div>
+        <div class="mood-card" data-q="golden hour nature">
+          <div class="mood-overlay">Golden Hour</div>
+        </div>
+        <div class="mood-card" data-q="pastel flat lay">
+          <div class="mood-overlay">Soft Pastels</div>
+        </div>
+        <div class="mood-card" data-q="industrial texture">
+          <div class="mood-overlay">Industrial</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECOND GALLERY -->
+  <section class="section-block">
+    <div class="container-fluid px-4">
+      <div class="section-header d-flex align-items-center justify-content-between mb-4">
+        <div>
+          <h2 class="section-title">Editorial Picks</h2>
+          <p class="section-sub">Curated by our creative team</p>
+        </div>
+        <a href="pages/explore.html?q=editorial" class="see-all-link">See all <i class="bi bi-arrow-right"></i></a>
+      </div>
+      <div class="masonry-grid" id="editorialGrid">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card tall"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card wide"></div>
+        <div class="skeleton-card tall"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="cta-banner">
+    <div class="container text-center">
+      <h2 class="cta-title">Build your visual world.</h2>
+      <p class="cta-sub">Save images, create collections, and get a feed personalized to your taste.</p>
+      <a href="pages/register.html" class="btn-primary-vi btn-lg-vi mt-4">Start for free</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="vi-footer">
+    <div class="container-fluid px-4">
+      <div class="footer-top d-flex flex-wrap justify-content-between gap-4">
+        <div class="footer-brand">
+          <div class="vi-logo mb-2">
+            <span class="logo-mark sm">VI</span>
+            <span class="logo-text">Visual<em>Inspiration</em></span>
+          </div>
+          <p class="footer-tagline">Where creativity finds its source.</p>
+        </div>
+        <div class="footer-links-group">
+          <h6>Product</h6>
+          <ul>
+            <li><a href="pages/explore.html">Explore</a></li>
+            <li><a href="pages/collections.html">Collections</a></li>
+            <li><a href="pages/foryou.html">For You</a></li>
+          </ul>
+        </div>
+        <div class="footer-links-group">
+          <h6>Account</h6>
+          <ul>
+            <li><a href="pages/register.html">Sign Up</a></li>
+            <li><a href="pages/login.html">Sign In</a></li>
+            <li><a href="pages/reset.html">Reset Password</a></li>
+          </ul>
+        </div>
+        <div class="footer-links-group">
+          <h6>Legal</h6>
+          <ul>
+            <li><a href="#">Privacy</a></li>
+            <li><a href="#">Terms</a></li>
+            <li><a href="#">Cookies</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">
+        <p class="mb-0">© 2025 Visual Inspiration. Powered by <a href="https://unsplash.com" target="_blank">Unsplash</a>.</p>
+        <div class="social-links">
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-pinterest"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL: Upload image (UI only) -->
+  <div class="modal fade" id="uploadModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content vi-modal">
+        <div class="modal-header border-0">
+          <h5 class="modal-title">Search by Image</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="upload-drop-zone" id="dropZone">
+            <i class="bi bi-cloud-upload"></i>
+            <p>Drag & drop an image here</p>
+            <span>or</span>
+            <label class="btn-primary-vi mt-2" style="cursor:pointer;">
+              Browse files <input type="file" accept="image/*" hidden />
+            </label>
+          </div>
+          <p class="text-center mt-3" style="font-size:0.8rem;color:var(--gray-500);">Image search is a UI preview — results use keyword matching.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="vi-toast" id="viToast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Page-specific init
+    document.addEventListener('DOMContentLoaded', () => {
+      loadTrendingGrid('trendingGrid', 'nature landscape');
+      loadTrendingGrid('editorialGrid', 'editorial fashion');
+      loadFeaturedStrip();
+      loadMoodCards();
+
+      document.getElementById('homeSearchBtn').addEventListener('click', () => {
+        const q = document.getElementById('homeSearchInput').value.trim();
+        if (q) window.location.href = `pages/explore.html?q=${encodeURIComponent(q)}`;
+      });
+      document.getElementById('homeSearchInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') document.getElementById('homeSearchBtn').click();
+      });
+      document.getElementById('uploadBtn').addEventListener('click', () => {
+        new bootstrap.Modal(document.getElementById('uploadModal')).show();
+      });
+      document.querySelectorAll('.tag-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const q = chip.dataset.q;
+          window.location.href = `pages/explore.html?q=${encodeURIComponent(q)}`;
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account — Visual Inspiration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .auth-bg-split {
+      position: fixed; right: 0; top: 0; bottom: 0;
+      width: 42%; background: var(--black);
+      overflow: hidden; display: none;
+    }
+    @media (min-width: 992px) { .auth-bg-split { display: block; } }
+    .auth-bg-split img { width: 100%; height: 100%; object-fit: cover; opacity: 0.45; }
+    .auth-bg-tagline {
+      position: absolute; top: 50%; left: 40px; right: 40px;
+      transform: translateY(-50%);
+      color: var(--white); text-align: center;
+    }
+    .auth-bg-tagline .big { font-family: var(--font-display); font-size: 2.6rem; font-weight: 800; line-height: 1.1; }
+    .auth-bg-tagline .big span { color: var(--accent); }
+    .auth-bg-tagline .small { font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-top: 12px; }
+    .auth-left {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 40px 20px;
+    }
+    @media (min-width: 992px) { .auth-left { width: 58%; } }
+    .auth-left-inner { width: 100%; max-width: 400px; }
+    .strength-bar { height: 4px; border-radius: 2px; background: var(--gray-200); margin-top: 8px; overflow: hidden; }
+    .strength-fill { height: 100%; border-radius: 2px; width: 0; transition: width 0.3s, background 0.3s; }
+    .strength-text { font-size: 0.72rem; color: var(--gray-500); margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+  <div class="d-flex" style="min-height:100vh;">
+    <!-- LEFT -->
+    <div class="auth-left">
+      <div class="auth-left-inner">
+        <a href="../index.html" class="vi-logo d-inline-flex mb-8" style="margin-bottom:36px;">
+          <span class="logo-mark">VI</span>
+          <span class="logo-text">Visual<em>Inspiration</em></span>
+        </a>
+
+        <h1 class="auth-title">Create your account.</h1>
+        <p class="auth-sub">Free forever. No credit card required.</p>
+
+        <div id="registerError" class="alert alert-danger py-2 px-3 rounded-3 mb-3" style="display:none;font-size:0.875rem;"></div>
+
+        <form id="registerForm" novalidate>
+          <div class="form-group-vi">
+            <label class="form-label-vi">Username</label>
+            <input type="text" name="username" class="form-input-vi" placeholder="yourname" autocomplete="username" />
+            <div class="form-error" data-error="username">Username must be 2–24 characters</div>
+          </div>
+          <div class="form-group-vi">
+            <label class="form-label-vi">Email</label>
+            <input type="email" name="email" class="form-input-vi" placeholder="you@example.com" autocomplete="email" />
+            <div class="form-error" data-error="email">Please enter a valid email</div>
+          </div>
+          <div class="form-group-vi">
+            <label class="form-label-vi">Password</label>
+            <input type="password" id="regPassword" name="password" class="form-input-vi" placeholder="Min. 8 characters" autocomplete="new-password" />
+            <button type="button" class="password-toggle" id="toggleRegPwd">
+              <i class="bi bi-eye"></i>
+            </button>
+            <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+            <div class="strength-text" id="strengthText"></div>
+            <div class="form-error" data-error="password">Password must be at least 8 characters</div>
+          </div>
+          <div class="form-group-vi">
+            <label class="form-label-vi">Confirm Password</label>
+            <input type="password" name="confirm" class="form-input-vi" placeholder="Repeat password" autocomplete="new-password" />
+            <div class="form-error" data-error="confirm">Passwords do not match</div>
+          </div>
+
+          <div class="d-flex align-items-start gap-2 mb-4 mt-2">
+            <input type="checkbox" id="agreeTerms" style="margin-top:3px;accent-color:var(--accent);" />
+            <label for="agreeTerms" style="font-size:0.8rem;color:var(--gray-500);cursor:pointer;">
+              I agree to the <a href="#" style="color:var(--accent);">Terms of Service</a> and <a href="#" style="color:var(--accent);">Privacy Policy</a>
+            </label>
+          </div>
+
+          <button type="submit" class="form-submit-vi">Create Account</button>
+        </form>
+
+        <div class="form-footer mt-4">
+          Already have an account? <a href="login.html">Sign in</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="auth-bg-split">
+      <img src="https://picsum.photos/seed/register-art/800/1200" alt="" />
+      <div class="auth-bg-tagline">
+        <div class="big">Your visual<br /><span>universe</span><br />awaits.</div>
+        <div class="small">Join thousands of creators who save<br />and share what inspires them.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vi-toast" id="viToast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Password toggle
+      document.getElementById('toggleRegPwd').addEventListener('click', () => {
+        const pwd = document.getElementById('regPassword');
+        const icon = document.querySelector('#toggleRegPwd i');
+        pwd.type = pwd.type === 'password' ? 'text' : 'password';
+        icon.className = pwd.type === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash';
+      });
+
+      // Password strength meter
+      document.getElementById('regPassword').addEventListener('input', function() {
+        const v = this.value;
+        let score = 0;
+        if (v.length >= 8) score++;
+        if (/[A-Z]/.test(v)) score++;
+        if (/[0-9]/.test(v)) score++;
+        if (/[^A-Za-z0-9]/.test(v)) score++;
+        const fill = document.getElementById('strengthFill');
+        const text = document.getElementById('strengthText');
+        const levels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+        const colors = ['', '#e53e3e', '#f6ad55', '#68d391', '#38a169'];
+        fill.style.width = `${(score / 4) * 100}%`;
+        fill.style.background = colors[score] || 'transparent';
+        text.textContent = v.length ? levels[score] || '' : '';
+      });
+
+      // Validation
+      const form = document.getElementById('registerForm');
+      setupFormValidation('registerForm', [
+        { field: 'username', validates: v => v.length >= 2 && v.length <= 24, message: 'Username must be 2–24 characters' },
+        { field: 'email', validates: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), message: 'Please enter a valid email' },
+        { field: 'password', validates: v => v.length >= 8, message: 'Password must be at least 8 characters' },
+        {
+          field: 'confirm',
+          validates: v => v === form.querySelector('[name="password"]').value,
+          message: 'Passwords do not match',
+        },
+      ]);
+
+      form.addEventListener('vi:valid', () => {
+        if (!document.getElementById('agreeTerms').checked) {
+          showToast('Please agree to the Terms of Service');
+          return;
+        }
+        const username = form.querySelector('[name="username"]').value;
+        const email = form.querySelector('[name="email"]').value;
+        const password = form.querySelector('[name="password"]').value;
+
+        const result = registerUser(username, email, password);
+        if (result.error) {
+          const errEl = document.getElementById('registerError');
+          errEl.textContent = result.error;
+          errEl.style.display = 'block';
+        } else {
+          showToast('🎉 Account created! Welcome!');
+          setTimeout(() => window.location.href = '../index.html', 900);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

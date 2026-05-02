@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore — Visual Inspiration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg vi-navbar" id="mainNav">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand vi-logo" href="../index.html">
+        <span class="logo-mark">VI</span>
+        <span class="logo-text">Visual<em>Inspiration</em></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="explore.html">Explore</a></li>
+          <li class="nav-item"><a class="nav-link" href="collections.html">Collections</a></li>
+          <li class="nav-item"><a class="nav-link" href="foryou.html">For You</a></li>
+        </ul>
+        <div class="nav-actions d-flex align-items-center gap-3">
+          <a href="login.html" class="btn-ghost">Sign in</a>
+          <a href="register.html" class="btn-primary-vi">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="container-fluid px-4">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <h1 class="section-title" style="font-size:1.6rem;">Explore</h1>
+        <div class="page-search-bar">
+          <i class="bi bi-search" style="color:var(--gray-400);padding-left:4px;"></i>
+          <input type="text" id="exploreInput" placeholder="Search images…" autocomplete="off" />
+          <button id="exploreSearchBtn">Search</button>
+        </div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="filter-bar">
+        <div class="filter-group">
+          <select class="filter-select" id="filterCategory">
+            <option value="">All Categories</option>
+            <option value="nature">Nature</option>
+            <option value="architecture">Architecture</option>
+            <option value="portrait">Portrait</option>
+            <option value="travel">Travel</option>
+            <option value="food">Food</option>
+            <option value="fashion">Fashion</option>
+            <option value="abstract">Abstract</option>
+            <option value="technology">Technology</option>
+          </select>
+          <select class="filter-select" id="filterOrientation">
+            <option value="">Any Orientation</option>
+            <option value="landscape">Landscape</option>
+            <option value="portrait">Portrait</option>
+            <option value="squarish">Square</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <button class="filter-chip active" data-color="">All</button>
+          <button class="filter-chip" data-color="black_and_white" style="background:#1a1a1a;color:#fff;border-color:#1a1a1a;">B&W</button>
+          <button class="filter-chip" data-color="red">Red</button>
+          <button class="filter-chip" data-color="orange">Orange</button>
+          <button class="filter-chip" data-color="blue">Blue</button>
+          <button class="filter-chip" data-color="green">Green</button>
+        </div>
+        <span class="results-count" id="resultsCount"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTS GRID -->
+  <div class="page-main">
+    <div class="container-fluid px-4">
+      <div class="masonry-grid" id="exploreGrid">
+        <!-- skeletons on init -->
+      </div>
+      <div class="load-more-wrap">
+        <button class="btn-load-more" id="loadMoreBtn" style="display:none;">
+          Load more
+        </button>
+        <div class="spinner-wrap" id="exploreSpinner" style="display:none;">
+          <div class="vi-spinner"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLLECTION MODAL -->
+  <div class="modal fade" id="collectionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content vi-modal p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0" style="font-family:var(--font-display);font-weight:700;">Save to…</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="collection-select-list" id="collectionSelectList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vi-toast" id="viToast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    // ─── Explore Page Init ─────────────────────
+    let currentQuery = 'photography';
+    let currentPage = 1;
+    let activeColor = '';
+    let activeOrientation = '';
+    let loading = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Read query from URL param
+      const params = new URLSearchParams(location.search);
+      const qParam = params.get('q');
+      if (qParam) {
+        currentQuery = qParam;
+        document.getElementById('exploreInput').value = qParam;
+      }
+
+      doSearch(currentQuery, 1);
+
+      // Search button
+      document.getElementById('exploreSearchBtn').addEventListener('click', runSearch);
+      document.getElementById('exploreInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') runSearch();
+      });
+
+      // Category select (appends to query)
+      document.getElementById('filterCategory').addEventListener('change', runSearch);
+
+      // Orientation select
+      document.getElementById('filterOrientation').addEventListener('change', e => {
+        activeOrientation = e.target.value;
+        runSearch();
+      });
+
+      // Color chips
+      document.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          activeColor = chip.dataset.color;
+          runSearch();
+        });
+      });
+
+      // Load more
+      document.getElementById('loadMoreBtn').addEventListener('click', () => {
+        currentPage++;
+        doSearch(currentQuery, currentPage, true);
+      });
+    });
+
+    function runSearch() {
+      const input = document.getElementById('exploreInput').value.trim();
+      const cat = document.getElementById('filterCategory').value;
+      currentQuery = [input || 'photography', cat].filter(Boolean).join(' ');
+      currentPage = 1;
+      doSearch(currentQuery, 1);
+    }
+
+    async function doSearch(query, page, append = false) {
+      if (loading) return;
+      loading = true;
+
+      const grid = document.getElementById('exploreGrid');
+      const loadMoreBtn = document.getElementById('loadMoreBtn');
+      const spinner = document.getElementById('exploreSpinner');
+
+      if (!append) {
+        // Show skeletons
+        grid.innerHTML = Array(10).fill(0).map((_, i) =>
+          `<div class="skeleton-card ${i % 3 === 1 ? 'tall' : i % 5 === 4 ? 'wide' : ''}"></div>`
+        ).join('');
+        loadMoreBtn.style.display = 'none';
+        document.getElementById('resultsCount').textContent = '';
+      } else {
+        loadMoreBtn.style.display = 'none';
+        spinner.style.display = 'block';
+      }
+
+      // Build search params
+      let url = `${CONFIG.BASE_URL}/search/photos?query=${encodeURIComponent(query)}&per_page=${CONFIG.PER_PAGE}&page=${page}&client_id=${CONFIG.UNSPLASH_KEY}`;
+      if (activeColor) url += `&color=${activeColor}`;
+      if (activeOrientation) url += `&orientation=${activeOrientation}`;
+
+      let photos = [];
+      let total = 0;
+      try {
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          photos = data.results || [];
+          total = data.total || 0;
+        } else { throw new Error(); }
+      } catch {
+        photos = getDemoImages(query);
+        total = photos.length;
+      }
+
+      spinner.style.display = 'none';
+
+      if (!append) {
+        grid.innerHTML = '';
+        document.getElementById('resultsCount').textContent =
+          total > 0 ? `${total.toLocaleString()} results` : '';
+      }
+
+      if (photos.length === 0 && !append) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--gray-400);">
+          <i class="bi bi-search" style="font-size:2rem;"></i>
+          <p class="mt-3">No results for "<strong>${query}</strong>"</p>
+        </div>`;
+      } else {
+        photos.forEach(p => grid.appendChild(buildCard(p)));
+        if (photos.length === CONFIG.PER_PAGE) {
+          loadMoreBtn.style.display = 'inline-flex';
+        }
+      }
+
+      loading = false;
+    }
+  </script>
+</body>
+</html>

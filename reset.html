@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reset Password — Visual Inspiration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <div class="auth-page d-flex align-items-center justify-content-center">
+    <div class="auth-card" style="max-width:420px;">
+      <a href="../index.html" class="vi-logo auth-logo">
+        <span class="logo-mark">VI</span>
+        <span class="logo-text">Visual<em>Inspiration</em></span>
+      </a>
+
+      <!-- STEP 1: Enter email -->
+      <div id="step1">
+        <div class="mb-2">
+          <div style="width:52px;height:52px;background:var(--accent-light);border-radius:14px;display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:1.5rem;margin-bottom:20px;">
+            <i class="bi bi-lock-fill"></i>
+          </div>
+          <h1 class="auth-title">Reset password</h1>
+          <p class="auth-sub">Enter your account email and we'll send you a reset link. (UI demo — no actual email sent)</p>
+        </div>
+
+        <form id="resetForm" novalidate>
+          <div class="form-group-vi">
+            <label class="form-label-vi">Email Address</label>
+            <input type="email" name="email" class="form-input-vi" placeholder="you@example.com" autocomplete="email" />
+            <div class="form-error" data-error="email">Please enter a valid email</div>
+          </div>
+          <button type="submit" class="form-submit-vi">Reset Password</button>
+        </form>
+      </div>
+
+      <!-- STEP 2: Success -->
+      <div id="step2" style="display:none;text-align:center;padding:20px 0;">
+        <div style="width:72px;height:72px;background:#f0fff4;border-radius:18px;display:flex;align-items:center;justify-content:center;color:#38a169;font-size:2rem;margin:0 auto 24px;">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <h2 style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;margin-bottom:8px;">Check your email</h2>
+        <p style="color:var(--gray-500);font-size:0.9rem;margin-bottom:32px;">
+          We've sent a password reset link to <strong id="sentEmail"></strong>.<br />
+          It will expire in 15 minutes.
+        </p>
+        <a href="login.html" class="btn-primary-vi" style="display:inline-flex;">Back to Sign In</a>
+        <p style="margin-top:20px;font-size:0.8rem;color:var(--gray-400);">
+          Didn't receive it? <button onclick="showStep1()" style="background:none;border:none;color:var(--accent);font-weight:600;cursor:pointer;font-size:0.8rem;padding:0;">Try again</button>
+        </p>
+      </div>
+
+      <div class="form-footer mt-3">
+        <a href="login.html"><i class="bi bi-arrow-left" style="font-size:0.75rem;"></i> Back to Sign In</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="vi-toast" id="viToast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      setupFormValidation('resetForm', [
+        { field: 'email', validates: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), message: 'Please enter a valid email' },
+      ]);
+
+      document.getElementById('resetForm').addEventListener('vi:valid', () => {
+        const email = document.getElementById('resetForm').querySelector('[name="email"]').value;
+        document.getElementById('sentEmail').textContent = email;
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
+        showToast('Reset link sent (demo)');
+      });
+    });
+
+    function showStep1() {
+      document.getElementById('step1').style.display = 'block';
+      document.getElementById('step2').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
