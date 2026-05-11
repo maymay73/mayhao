@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Visual Inspiration — Discover & Save</title>
+  <title>Mayhao — Мода. Стиль. Вдохновение.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
@@ -13,231 +13,278 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
+  <!-- ═══════════ НАВБАР ═══════════ -->
   <nav class="navbar navbar-expand-lg vi-navbar" id="mainNav">
     <div class="container-fluid px-4">
       <a class="navbar-brand vi-logo" href="index.html">
-        <span class="logo-mark">VI</span>
-        <span class="logo-text">Visual<em>Inspiration</em></span>
+        <span class="logo-mark">MH</span>
+        <span class="logo-text">may<em>hao</em></span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
         <i class="bi bi-list"></i>
       </button>
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav mx-auto gap-1">
-          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="pages/explore.html">Explore</a></li>
-          <li class="nav-item"><a class="nav-link" href="pages/collections.html">Collections</a></li>
-          <li class="nav-item"><a class="nav-link" href="pages/foryou.html">For You</a></li>
+          <li class="nav-item"><a class="nav-link active" href="index.html">Главная</a></li>
+          <li class="nav-item"><a class="nav-link" href="pages/explore.html">Обзор</a></li>
+          <li class="nav-item"><a class="nav-link" href="pages/collections.html">Коллекции</a></li>
+          <li class="nav-item"><a class="nav-link" href="pages/foryou.html">Для вас</a></li>
         </ul>
-        <div class="nav-actions d-flex align-items-center gap-3">
-          <a href="pages/login.html" class="btn-ghost">Sign in</a>
-          <a href="pages/register.html" class="btn-primary-vi">Get Started</a>
+        <div class="nav-actions d-flex align-items-center gap-2">
+          <!-- Поиск -->
+          <button class="nav-icon-btn" id="navSearchToggle" title="Поиск">
+            <i class="bi bi-search"></i>
+          </button>
+          <!-- Уведомления -->
+          <div style="position:relative;">
+            <button class="nav-icon-btn" id="notifBtn" title="Уведомления">
+              <i class="bi bi-bell"></i>
+              <span class="badge-dot"></span>
+            </button>
+            <div class="notif-dropdown" id="notifDropdown">
+              <div class="notif-header">Уведомления <a href="#">Все прочитано</a></div>
+              <div class="notif-item">
+                <div class="notif-icon"><i class="bi bi-heart-fill"></i></div>
+                <div><div class="notif-text">Ваш образ «Осень в городе» понравился 12 пользователям</div><div class="notif-time">2 минуты назад</div></div>
+              </div>
+              <div class="notif-item">
+                <div class="notif-icon"><i class="bi bi-bookmark-fill"></i></div>
+                <div><div class="notif-text">Новые образы добавлены в ваш стиль «Минимализм»</div><div class="notif-time">1 час назад</div></div>
+              </div>
+              <div class="notif-item">
+                <div class="notif-icon"><i class="bi bi-stars"></i></div>
+                <div><div class="notif-text">Для вас подобраны новые тренды этой недели</div><div class="notif-time">вчера</div></div>
+              </div>
+            </div>
+          </div>
+          <a href="pages/login.html" class="btn-ghost">Войти</a>
+          <a href="pages/register.html" class="btn-primary-vi">Начать</a>
         </div>
+      </div>
+    </div>
+    <!-- Выдвижная строка поиска -->
+    <div class="nav-search-bar" id="navSearchBar" style="display:none;position:absolute;top:var(--nav-h);left:0;right:0;background:var(--white);border-bottom:1px solid var(--gray-200);padding:12px 24px;z-index:800;">
+      <div class="page-search-bar" style="max-width:100%;">
+        <i class="bi bi-search" style="color:var(--gray-400);padding-left:4px;"></i>
+        <input type="text" id="navSearchInput" placeholder="Поиск образов, брендов, стилей…" autocomplete="off" />
+        <button id="navSearchBtn">Найти</button>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
+  <!-- ═══════════ ГЕРОЙ ═══════════ -->
   <section class="hero-section">
     <div class="hero-bg-grid"></div>
     <div class="container text-center hero-content">
-      <div class="hero-badge mb-4">✦ Discover the world's visual stories</div>
-      <h1 class="hero-title">Find inspiration<br /><span class="accent-word">everywhere.</span></h1>
-      <p class="hero-sub">Search millions of curated images, build collections,<br class="d-none d-md-block" /> and grow a feed that thinks like you do.</p>
+      <div class="hero-badge mb-4">✦ Мода — это язык без слов</div>
+      <h1 class="hero-title">Твой стиль.<br /><span class="accent-word">Твои правила.</span></h1>
+      <p class="hero-sub">Ищите образы, сохраняйте луки, создавайте коллекции<br class="d-none d-md-block" /> и открывайте мир моды каждый день.</p>
 
       <div class="search-wrapper mt-5">
-        <div class="search-bar-home" id="homeSearchBar">
+        <div class="search-bar-home">
           <i class="bi bi-search search-icon"></i>
-          <input type="text" id="homeSearchInput" placeholder="Search for landscapes, portraits, architecture…" autocomplete="off" />
-          <button class="upload-btn" id="uploadBtn" title="Search by image">
+          <input type="text" id="homeSearchInput" placeholder="Поиск: оверсайз, y2k, кэжуал, минимализм…" autocomplete="off" />
+          <button class="upload-btn" id="uploadBtn" title="Поиск по фото">
             <i class="bi bi-camera"></i>
           </button>
-          <button class="search-submit" id="homeSearchBtn">Search</button>
+          <button class="search-submit" id="homeSearchBtn">Найти</button>
         </div>
         <div class="trending-tags mt-3">
-          <span class="tag-label">Trending:</span>
-          <button class="tag-chip" data-q="minimal architecture">Minimal Architecture</button>
-          <button class="tag-chip" data-q="nature macro">Nature Macro</button>
-          <button class="tag-chip" data-q="street photography">Street Photography</button>
-          <button class="tag-chip" data-q="abstract art">Abstract Art</button>
+          <span class="tag-label">В тренде:</span>
+          <button class="tag-chip" data-q="oversized fashion">Оверсайз</button>
+          <button class="tag-chip" data-q="minimalist outfit">Минимализм</button>
+          <button class="tag-chip" data-q="street style fashion">Стритвир</button>
+          <button class="tag-chip" data-q="vintage clothing aesthetic">Винтаж</button>
+          <button class="tag-chip" data-q="luxury fashion editorial">Люкс</button>
         </div>
       </div>
     </div>
     <div class="hero-scroll-hint"><i class="bi bi-chevron-down"></i></div>
   </section>
 
-  <!-- FEATURED STRIP -->
+  <!-- ═══════════ ПОЛОСА ФОТО ═══════════ -->
   <section class="featured-strip">
     <div class="container-fluid px-4">
-      <div class="strip-inner" id="featuredStrip">
-        <!-- filled by JS -->
-      </div>
+      <div class="strip-inner" id="featuredStrip"></div>
     </div>
   </section>
 
-  <!-- TRENDING SECTION -->
+  <!-- ═══════════ В ТРЕНДЕ ═══════════ -->
   <section class="section-block">
     <div class="container-fluid px-4">
       <div class="section-header d-flex align-items-center justify-content-between mb-4">
         <div>
-          <h2 class="section-title">Trending Now</h2>
-          <p class="section-sub">What the world is saving today</p>
+          <h2 class="section-title">Сейчас в тренде</h2>
+          <p class="section-sub">Образы, которые сохраняют прямо сейчас</p>
         </div>
-        <a href="pages/explore.html" class="see-all-link">See all <i class="bi bi-arrow-right"></i></a>
+        <a href="pages/explore.html?q=fashion+trend" class="see-all-link">Смотреть всё <i class="bi bi-arrow-right"></i></a>
       </div>
       <div class="masonry-grid" id="trendingGrid">
-        <!-- skeleton -->
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card tall"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card wide"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card tall"></div>
+        <div class="skeleton-card"></div><div class="skeleton-card tall"></div>
+        <div class="skeleton-card"></div><div class="skeleton-card wide"></div>
+        <div class="skeleton-card"></div><div class="skeleton-card tall"></div>
       </div>
     </div>
   </section>
 
-  <!-- CATEGORY BUCKETS -->
+  <!-- ═══════════ НАСТРОЕНИЕ ═══════════ -->
   <section class="section-block alt-bg">
     <div class="container-fluid px-4">
-      <h2 class="section-title mb-4">Browse by Mood</h2>
+      <h2 class="section-title mb-1">Выбери стиль</h2>
+      <p class="section-sub mb-4">Найди образы под своё настроение</p>
       <div class="mood-grid" id="moodGrid">
-        <div class="mood-card" data-q="calm minimalism">
-          <div class="mood-overlay">Calm & Minimal</div>
-        </div>
-        <div class="mood-card" data-q="vibrant urban">
-          <div class="mood-overlay">Vibrant Urban</div>
-        </div>
-        <div class="mood-card" data-q="dark moody portrait">
-          <div class="mood-overlay">Dark & Moody</div>
-        </div>
-        <div class="mood-card" data-q="golden hour nature">
-          <div class="mood-overlay">Golden Hour</div>
-        </div>
-        <div class="mood-card" data-q="pastel flat lay">
-          <div class="mood-overlay">Soft Pastels</div>
-        </div>
-        <div class="mood-card" data-q="industrial texture">
-          <div class="mood-overlay">Industrial</div>
-        </div>
+        <div class="mood-card" data-q="minimalist fashion white"><div class="mood-overlay">Минимализм</div></div>
+        <div class="mood-card" data-q="street style urban fashion"><div class="mood-overlay">Стритвир</div></div>
+        <div class="mood-card" data-q="dark aesthetic fashion gothic"><div class="mood-overlay">Тёмный стиль</div></div>
+        <div class="mood-card" data-q="golden glam luxury fashion"><div class="mood-overlay">Гламур</div></div>
+        <div class="mood-card" data-q="pastel soft aesthetic outfit"><div class="mood-overlay">Пастельный</div></div>
+        <div class="mood-card" data-q="vintage retro fashion style"><div class="mood-overlay">Ретро-винтаж</div></div>
       </div>
     </div>
   </section>
 
-  <!-- SECOND GALLERY -->
-  <section class="section-block">
+  <!-- ═══════════ БРЕНДЫ ═══════════ -->
+  <section class="section-block" style="padding:32px 0;">
+    <div class="container-fluid px-4">
+      <p class="text-center mb-0" style="font-size:0.75rem;color:var(--gray-400);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px!important;">Источники вдохновения</p>
+      <div class="brands-row">
+        <span class="brand-item">Zara</span>
+        <span class="brand-item">H&amp;M</span>
+        <span class="brand-item">Gucci</span>
+        <span class="brand-item">Balenciaga</span>
+        <span class="brand-item">Mango</span>
+        <span class="brand-item">Prada</span>
+        <span class="brand-item">Nike</span>
+        <span class="brand-item">Levi's</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ РЕДАКЦИОННЫЙ ВЫБОР ═══════════ -->
+  <section class="section-block alt-bg">
     <div class="container-fluid px-4">
       <div class="section-header d-flex align-items-center justify-content-between mb-4">
         <div>
-          <h2 class="section-title">Editorial Picks</h2>
-          <p class="section-sub">Curated by our creative team</p>
+          <h2 class="section-title">Редакционный выбор</h2>
+          <p class="section-sub">Отобрано командой mayhao</p>
         </div>
-        <a href="pages/explore.html?q=editorial" class="see-all-link">See all <i class="bi bi-arrow-right"></i></a>
+        <a href="pages/explore.html?q=editorial+fashion" class="see-all-link">Смотреть всё <i class="bi bi-arrow-right"></i></a>
       </div>
       <div class="masonry-grid" id="editorialGrid">
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card tall"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card"></div>
-        <div class="skeleton-card wide"></div>
-        <div class="skeleton-card tall"></div>
+        <div class="skeleton-card"></div><div class="skeleton-card tall"></div>
+        <div class="skeleton-card"></div><div class="skeleton-card"></div>
+        <div class="skeleton-card wide"></div><div class="skeleton-card tall"></div>
       </div>
     </div>
   </section>
 
-  <!-- CTA BANNER -->
+  <!-- ═══════════ CTA ═══════════ -->
   <section class="cta-banner">
     <div class="container text-center">
-      <h2 class="cta-title">Build your visual world.</h2>
-      <p class="cta-sub">Save images, create collections, and get a feed personalized to your taste.</p>
-      <a href="pages/register.html" class="btn-primary-vi btn-lg-vi mt-4">Start for free</a>
+      <h2 class="cta-title">Собери свой идеальный образ.</h2>
+      <p class="cta-sub">Сохраняй луки, создавай коллекции и получай ленту под твой стиль.</p>
+      <a href="pages/register.html" class="btn-primary-vi btn-lg-vi mt-4">Начать бесплатно</a>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- ═══════════ ФУТЕР ═══════════ -->
   <footer class="vi-footer">
     <div class="container-fluid px-4">
       <div class="footer-top d-flex flex-wrap justify-content-between gap-4">
         <div class="footer-brand">
           <div class="vi-logo mb-2">
-            <span class="logo-mark sm">VI</span>
-            <span class="logo-text">Visual<em>Inspiration</em></span>
+            <span class="logo-mark sm">MH</span>
+            <span class="logo-text">may<em>hao</em></span>
           </div>
-          <p class="footer-tagline">Where creativity finds its source.</p>
+          <p class="footer-tagline">Где стиль находит свой язык.</p>
         </div>
         <div class="footer-links-group">
-          <h6>Product</h6>
+          <h6>Платформа</h6>
           <ul>
-            <li><a href="pages/explore.html">Explore</a></li>
-            <li><a href="pages/collections.html">Collections</a></li>
-            <li><a href="pages/foryou.html">For You</a></li>
+            <li><a href="pages/explore.html">Обзор</a></li>
+            <li><a href="pages/collections.html">Коллекции</a></li>
+            <li><a href="pages/foryou.html">Для вас</a></li>
           </ul>
         </div>
         <div class="footer-links-group">
-          <h6>Account</h6>
+          <h6>Аккаунт</h6>
           <ul>
-            <li><a href="pages/register.html">Sign Up</a></li>
-            <li><a href="pages/login.html">Sign In</a></li>
-            <li><a href="pages/reset.html">Reset Password</a></li>
+            <li><a href="pages/profile.html">Профиль</a></li>
+            <li><a href="pages/register.html">Регистрация</a></li>
+            <li><a href="pages/login.html">Войти</a></li>
+            <li><a href="pages/reset.html">Сброс пароля</a></li>
           </ul>
         </div>
         <div class="footer-links-group">
-          <h6>Legal</h6>
+          <h6>Правовое</h6>
           <ul>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Terms</a></li>
+            <li><a href="#">Конфиденциальность</a></li>
+            <li><a href="#">Условия использования</a></li>
             <li><a href="#">Cookies</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">
-        <p class="mb-0">© 2025 Visual Inspiration. Powered by <a href="https://unsplash.com" target="_blank">Unsplash</a>.</p>
+        <p class="mb-0">© 2025 Mayhao. Фотографии — <a href="https://unsplash.com" target="_blank">Unsplash</a>.</p>
         <div class="social-links">
-          <a href="#"><i class="bi bi-twitter-x"></i></a>
-          <a href="#"><i class="bi bi-instagram"></i></a>
-          <a href="#"><i class="bi bi-pinterest"></i></a>
+          <a href="#" title="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
+          <a href="#" title="Pinterest"><i class="bi bi-pinterest"></i></a>
+          <a href="#" title="TikTok"><i class="bi bi-tiktok"></i></a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- MODAL: Upload image (UI only) -->
+  <!-- MODAL: Поиск по фото -->
   <div class="modal fade" id="uploadModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content vi-modal">
         <div class="modal-header border-0">
-          <h5 class="modal-title">Search by Image</h5>
+          <h5 class="modal-title">Поиск по изображению</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <div class="upload-drop-zone" id="dropZone">
+          <div class="upload-drop-zone">
             <i class="bi bi-cloud-upload"></i>
-            <p>Drag & drop an image here</p>
-            <span>or</span>
+            <p>Перетащите фото сюда</p>
+            <span>или</span>
             <label class="btn-primary-vi mt-2" style="cursor:pointer;">
-              Browse files <input type="file" accept="image/*" hidden />
+              Выбрать файл <input type="file" accept="image/*" hidden />
             </label>
           </div>
-          <p class="text-center mt-3" style="font-size:0.8rem;color:var(--gray-500);">Image search is a UI preview — results use keyword matching.</p>
+          <p class="text-center mt-3" style="font-size:0.8rem;color:var(--gray-500);">Поиск по фото — UI-превью.</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- TOAST -->
+  <!-- MODAL: Коллекции -->
+  <div class="modal fade" id="collectionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content vi-modal p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0" style="font-family:var(--font-display);font-weight:700;">Сохранить в…</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="collection-select-list" id="collectionSelectList"></div>
+      </div>
+    </div>
+  </div>
+
   <div class="vi-toast" id="viToast"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
   <script>
-    // Page-specific init
     document.addEventListener('DOMContentLoaded', () => {
-      loadTrendingGrid('trendingGrid', 'nature landscape');
-      loadTrendingGrid('editorialGrid', 'editorial fashion');
+      // Загрузка галерей
+      loadTrendingGrid('trendingGrid', 'fashion model outfit style');
+      loadTrendingGrid('editorialGrid', 'editorial luxury fashion');
       loadFeaturedStrip();
       loadMoodCards();
 
+      // Поиск из главной
       document.getElementById('homeSearchBtn').addEventListener('click', () => {
         const q = document.getElementById('homeSearchInput').value.trim();
         if (q) window.location.href = `pages/explore.html?q=${encodeURIComponent(q)}`;
@@ -245,15 +292,44 @@
       document.getElementById('homeSearchInput').addEventListener('keydown', e => {
         if (e.key === 'Enter') document.getElementById('homeSearchBtn').click();
       });
+
+      // Загрузка фото
       document.getElementById('uploadBtn').addEventListener('click', () => {
         new bootstrap.Modal(document.getElementById('uploadModal')).show();
       });
+
+      // Теги-тренды
       document.querySelectorAll('.tag-chip').forEach(chip => {
         chip.addEventListener('click', () => {
-          const q = chip.dataset.q;
-          window.location.href = `pages/explore.html?q=${encodeURIComponent(q)}`;
+          window.location.href = `pages/explore.html?q=${encodeURIComponent(chip.dataset.q)}`;
         });
       });
+
+      // Поиск в навбаре
+      const navSearchToggle = document.getElementById('navSearchToggle');
+      const navSearchBar = document.getElementById('navSearchBar');
+      navSearchToggle.addEventListener('click', () => {
+        const isOpen = navSearchBar.style.display !== 'none';
+        navSearchBar.style.display = isOpen ? 'none' : 'block';
+        if (!isOpen) document.getElementById('navSearchInput').focus();
+      });
+      document.getElementById('navSearchBtn').addEventListener('click', () => {
+        const q = document.getElementById('navSearchInput').value.trim();
+        if (q) window.location.href = `pages/explore.html?q=${encodeURIComponent(q)}`;
+      });
+      document.getElementById('navSearchInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') document.getElementById('navSearchBtn').click();
+      });
+
+      // Уведомления
+      const notifBtn = document.getElementById('notifBtn');
+      const notifDropdown = document.getElementById('notifDropdown');
+      notifBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        notifDropdown.classList.toggle('open');
+        notifBtn.querySelector('.badge-dot')?.remove();
+      });
+      document.addEventListener('click', () => notifDropdown.classList.remove('open'));
     });
   </script>
 </body>

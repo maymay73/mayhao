@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Профиль — Mayhao</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg vi-navbar" id="mainNav">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand vi-logo" href="../index.html">
+        <span class="logo-mark">MH</span>
+        <span class="logo-text">may<em>hao</em></span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <i class="bi bi-list"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-auto gap-1">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Главная</a></li>
+          <li class="nav-item"><a class="nav-link" href="explore.html">Обзор</a></li>
+          <li class="nav-item"><a class="nav-link" href="collections.html">Коллекции</a></li>
+          <li class="nav-item"><a class="nav-link" href="foryou.html">Для вас</a></li>
+        </ul>
+        <div class="nav-actions d-flex align-items-center gap-2">
+          <a href="login.html" class="btn-ghost" id="navLoginBtn">Войти</a>
+          <a href="register.html" class="btn-primary-vi" id="navRegBtn">Начать</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="profile-hero">
+    <!-- Обложка -->
+    <div class="profile-cover">
+      <img src="https://picsum.photos/seed/fashion-cover/1400/300" alt="" class="profile-cover-img" />
+    </div>
+
+    <!-- Информация о пользователе -->
+    <div class="profile-info-bar">
+      <div class="container-fluid px-4">
+        <div class="d-flex align-items-flex-end justify-content-between flex-wrap gap-3">
+          <div>
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar" id="profileAvatar">М</div>
+            </div>
+            <div class="profile-name" id="profileName">Мой профиль</div>
+            <div class="profile-handle" id="profileHandle">@пользователь</div>
+            <div class="profile-stats">
+              <div class="profile-stat"><div class="num" id="statLiked">0</div><div class="lbl">Лайков</div></div>
+              <div class="profile-stat"><div class="num" id="statSaved">0</div><div class="lbl">Сохранено</div></div>
+              <div class="profile-stat"><div class="num" id="statCols">0</div><div class="lbl">Коллекций</div></div>
+            </div>
+          </div>
+          <div class="d-flex gap-2 align-items-center mt-3">
+            <button class="btn-edit-profile" id="editProfileBtn"><i class="bi bi-pencil"></i> Редактировать</button>
+            <button class="btn-ghost" id="logoutBtn"><i class="bi bi-box-arrow-right"></i> Выйти</button>
+          </div>
+        </div>
+
+        <!-- Вкладки -->
+        <div class="profile-tabs">
+          <button class="profile-tab active" data-tab="liked">Понравившиеся</button>
+          <button class="profile-tab" data-tab="saved">Сохранённые</button>
+          <button class="profile-tab" data-tab="collections">Коллекции</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Контент вкладок -->
+  <div class="container-fluid px-4 py-4">
+    <div id="tabContent"></div>
+  </div>
+
+  <!-- MODAL: Редактировать профиль -->
+  <div class="modal fade" id="editProfileModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content vi-modal p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="mb-0" style="font-family:var(--font-display);font-weight:700;">Редактировать профиль</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="form-group-vi">
+          <label class="form-label-vi">Имя пользователя</label>
+          <input type="text" class="form-input-vi" id="editUsername" placeholder="Ваше имя" />
+        </div>
+        <div class="form-group-vi">
+          <label class="form-label-vi">О себе</label>
+          <textarea class="form-input-vi" id="editBio" rows="3" placeholder="Расскажите о своём стиле…" style="resize:none;"></textarea>
+        </div>
+        <button class="form-submit-vi" id="saveProfileBtn">Сохранить изменения</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="collectionModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content vi-modal p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0" style="font-family:var(--font-display);font-weight:700;">Сохранить в…</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="collection-select-list" id="collectionSelectList"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vi-toast" id="viToast"></div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getCurrentUser();
+
+      if (!user) {
+        // Не авторизован — показываем гостевой профиль
+        document.getElementById('profileName').textContent = 'Гость';
+        document.getElementById('profileHandle').textContent = 'Войдите, чтобы увидеть свой профиль';
+        document.getElementById('navLoginBtn').textContent = 'Войти';
+        document.getElementById('navRegBtn').style.display = '';
+      } else {
+        const initials = user.username.charAt(0).toUpperCase();
+        document.getElementById('profileAvatar').textContent = initials;
+        document.getElementById('profileName').textContent = user.username;
+        document.getElementById('profileHandle').textContent = `@${user.email.split('@')[0]}`;
+        document.getElementById('navLoginBtn').textContent = user.username;
+        document.getElementById('navLoginBtn').href = 'profile.html';
+        document.getElementById('navRegBtn').style.display = 'none';
+      }
+
+      // Статистика
+      document.getElementById('statLiked').textContent = Object.keys(getLiked()).length;
+      document.getElementById('statSaved').textContent = Object.keys(getSaved()).length;
+      document.getElementById('statCols').textContent = getCollections().length;
+
+      // Вкладки
+      document.querySelectorAll('.profile-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          renderTab(tab.dataset.tab);
+        });
+      });
+      renderTab('liked');
+
+      // Редактирование
+      document.getElementById('editProfileBtn').addEventListener('click', () => {
+        document.getElementById('editUsername').value = user?.username || '';
+        new bootstrap.Modal(document.getElementById('editProfileModal')).show();
+      });
+
+      document.getElementById('saveProfileBtn').addEventListener('click', () => {
+        const newName = document.getElementById('editUsername').value.trim();
+        if (!newName) return;
+        const cur = getCurrentUser();
+        if (cur) {
+          cur.username = newName;
+          Store.set('mh_current_user', cur);
+          document.getElementById('profileName').textContent = newName;
+          document.getElementById('profileAvatar').textContent = newName.charAt(0).toUpperCase();
+        }
+        bootstrap.Modal.getInstance(document.getElementById('editProfileModal')).hide();
+        showToast('✓ Профиль обновлён');
+      });
+
+      // Выход
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        if (confirm('Выйти из аккаунта?')) {
+          logoutUser();
+          window.location.href = '../index.html';
+        }
+      });
+    });
+
+    function fakePhoto(img) {
+      return { id: img.id, urls:{small:img.url,regular:img.original||img.url,thumb:img.url}, alt_description:'образ', width:800, height:1000, user:{name:img.author||'Автор',profile_image:{small:`https://i.pravatar.cc/32?u=${img.id}`},links:{html:'#'}}, links:{html:'#',download:'#'} };
+    }
+
+    function renderTab(tab) {
+      const content = document.getElementById('tabContent');
+      if (tab === 'liked') {
+        const items = Object.values(getLiked()).sort((a,b)=>b.likedAt-a.likedAt);
+        if (!items.length) { content.innerHTML = emptyState('bi-heart','Нет понравившихся','Лайкайте образы на странице Обзора.','explore.html','Перейти в Обзор'); return; }
+        const grid = document.createElement('div'); grid.className = 'masonry-grid';
+        items.forEach(img => grid.appendChild(buildCard(fakePhoto(img))));
+        content.innerHTML = `<p style="font-size:0.8rem;color:var(--gray-400);margin-bottom:12px;">${items.length} понравившихся</p>`;
+        content.appendChild(grid);
+      } else if (tab === 'saved') {
+        const items = Object.values(getSaved()).sort((a,b)=>b.savedAt-a.savedAt);
+        if (!items.length) { content.innerHTML = emptyState('bi-bookmark','Нет сохранённых','Сохраняйте образы в коллекции.','explore.html','Перейти в Обзор'); return; }
+        const grid = document.createElement('div'); grid.className = 'masonry-grid';
+        items.forEach(img => grid.appendChild(buildCard(fakePhoto(img))));
+        content.innerHTML = `<p style="font-size:0.8rem;color:var(--gray-400);margin-bottom:12px;">${items.length} сохранённых</p>`;
+        content.appendChild(grid);
+      } else if (tab === 'collections') {
+        const cols = getCollections();
+        if (!cols.length) { content.innerHTML = emptyState('bi-folder2','Нет коллекций','Создайте коллекцию на странице Коллекций.','collections.html','Перейти'); return; }
+        const grid = document.createElement('div');
+        grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;';
+        cols.forEach(col => {
+          const card = document.createElement('div');
+          card.className = 'collection-card';
+          const imgs = col.images.slice(0,4);
+          const previews = Array(4).fill(null).map((_,i) => imgs[i]
+            ? `<img src="${imgs[i].url}" alt="" loading="lazy" />`
+            : `<div class="preview-placeholder"><i class="bi bi-image"></i></div>`
+          );
+          card.innerHTML = `<div class="collection-preview">${previews.join('')}</div><div class="collection-info"><div class="collection-name">${col.name}</div><div class="collection-count">${col.images.length} образов</div></div>`;
+          card.addEventListener('click', () => window.location.href = 'collections.html');
+          grid.appendChild(card);
+        });
+        content.innerHTML = '';
+        content.appendChild(grid);
+      }
+    }
+
+    function emptyState(icon, title, text, link, label) {
+      return `<div class="empty-state"><div class="empty-icon"><i class="bi ${icon}"></i></div><h3>${title}</h3><p>${text}</p><a href="${link}" class="btn-primary-vi mt-2">${label}</a></div>`;
+    }
+  </script>
+</body>
+</html>

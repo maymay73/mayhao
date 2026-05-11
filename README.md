@@ -1,65 +1,68 @@
-# Visual Inspiration 🎨
+# Mayhao 👗
 
-A Pinterest-style visual inspiration platform built with HTML, CSS, JavaScript, and Bootstrap. Ready to deploy on GitHub Pages.
+Платформа для визуального вдохновения в сфере моды и стиля. Аналог Pinterest, полностью на русском языке. Готова к развёртыванию на GitHub Pages.
 
-## Features
+## Возможности
 
-- 🔍 **Image Search** — powered by the Unsplash API
-- ❤️ **Like & Save** — persistent via localStorage
-- 📁 **Collections** — create, manage, and browse custom collections
-- 🎯 **For You Feed** — personalized based on your liked/saved images
-- 🔐 **Auth Pages** — Register, Login, Reset Password (localStorage simulation)
-- 📱 **Fully Responsive** — mobile, tablet, and desktop
+- 🔍 **Поиск образов** — через Unsplash API (мода, стиль, луки)
+- ❤️ **Лайки и сохранения** — хранятся в localStorage
+- 📁 **Коллекции** — создавайте тематические доски
+- 🎯 **Для вас** — персональная лента на основе ваших действий
+- 👤 **Профиль** — редактирование, статистика, выход
+- 🔐 **Авторизация** — Регистрация, Вход, Сброс пароля
+- 🔔 **Уведомления** — UI-дропдаун в навбаре
+- 📱 **Адаптивный дизайн** — мобильный, планшет, десктоп
 
-## Project Structure
+## Структура проекта
 
 ```
 /
-├── index.html          # Homepage
-├── style.css           # All styles
-├── script.js           # Core JS (API, cards, storage, auth)
+├── index.html              # Главная страница
+├── style.css               # Все стили
+├── script.js               # Логика (API, карточки, хранилище, авторизация)
 └── pages/
-    ├── explore.html    # Search & browse
-    ├── foryou.html     # Personalized feed
-    ├── collections.html # Saved collections
-    ├── login.html      # Sign in
-    ├── register.html   # Create account
-    └── reset.html      # Password reset
+    ├── explore.html        # Обзор и поиск
+    ├── foryou.html         # Персональная лента
+    ├── collections.html    # Коллекции
+    ├── profile.html        # Профиль пользователя
+    ├── login.html          # Вход
+    ├── register.html       # Регистрация
+    └── reset.html          # Сброс пароля
 ```
 
-## Setup
+## Установка и запуск
 
-### 1. Get an Unsplash API Key (free)
+### 1. Получить ключ Unsplash (бесплатно)
 
-1. Go to [unsplash.com/developers](https://unsplash.com/developers)
-2. Create a new application
-3. Copy your **Access Key**
+1. Перейти на [unsplash.com/developers](https://unsplash.com/developers)
+2. Создать новое приложение
+3. Скопировать **Access Key**
 
-### 2. Add your key
+### 2. Вставить ключ
 
-Open `script.js` and replace the value in `CONFIG`:
+Открыть `script.js` и заменить значение в `CONFIG`:
 
 ```js
 const CONFIG = {
-  UNSPLASH_KEY: 'YOUR_ACCESS_KEY_HERE',  // ← paste here
+  UNSPLASH_KEY: 'ВАШ_КЛЮЧ_ЗДЕСЬ',
   ...
 };
 ```
 
-### 3. Deploy to GitHub Pages
+### 3. Разместить на GitHub Pages
 
-1. Push all files to a GitHub repository
-2. Go to **Settings → Pages**
-3. Set source to **Deploy from a branch → main → / (root)**
-4. Your site will be live at `https://username.github.io/repository-name/`
+1. Загрузить все файлы в репозиторий GitHub
+2. Перейти в **Settings → Pages**
+3. Source: **Deploy from a branch → main → / (root)**
+4. Сайт будет доступен по адресу: `https://username.github.io/mayhao/`
 
-> ℹ️ If no API key is configured, the site falls back to [Picsum Photos](https://picsum.photos) placeholder images so the UI always looks complete.
+> ℹ️ Без ключа Unsplash сайт работает в демо-режиме с изображениями от [Picsum Photos](https://picsum.photos).
 
-## Technologies
+## Технологии
 
 - HTML5, CSS3, Vanilla JavaScript
 - [Bootstrap 5.3](https://getbootstrap.com)
 - [Bootstrap Icons](https://icons.getbootstrap.com)
 - [Google Fonts — Syne + DM Sans](https://fonts.google.com)
 - [Unsplash API](https://unsplash.com/developers)
-- localStorage for all persistence
+- localStorage для хранения данных

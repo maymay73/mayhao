@@ -1,73 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Collections — Visual Inspiration</title>
+  <title>Коллекции — Mayhao</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
-  <style>
-    .collection-detail { display: none; }
-    .collection-detail.active { display: block; }
-    .collections-view.hidden { display: none; }
-    .back-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 0.875rem; font-weight: 600; color: var(--gray-700);
-      background: var(--gray-100); border: none; border-radius: 8px;
-      padding: 8px 16px; cursor: pointer; margin-bottom: 24px;
-      transition: background var(--transition);
-    }
-    .back-btn:hover { background: var(--gray-200); }
-    .delete-col-btn {
-      background: none; border: 1.5px solid var(--gray-200);
-      color: var(--gray-500); font-size: 0.8rem; padding: 6px 14px;
-      border-radius: 8px; cursor: pointer; font-family: var(--font-body);
-      transition: all var(--transition);
-    }
-    .delete-col-btn:hover { border-color: #e53e3e; color: #e53e3e; }
-  </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg vi-navbar" id="mainNav">
     <div class="container-fluid px-4">
       <a class="navbar-brand vi-logo" href="../index.html">
-        <span class="logo-mark">VI</span>
-        <span class="logo-text">Visual<em>Inspiration</em></span>
+        <span class="logo-mark">MH</span>
+        <span class="logo-text">may<em>hao</em></span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
         <i class="bi bi-list"></i>
       </button>
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav mx-auto gap-1">
-          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="explore.html">Explore</a></li>
-          <li class="nav-item"><a class="nav-link active" href="collections.html">Collections</a></li>
-          <li class="nav-item"><a class="nav-link" href="foryou.html">For You</a></li>
+          <li class="nav-item"><a class="nav-link" href="../index.html">Главная</a></li>
+          <li class="nav-item"><a class="nav-link" href="explore.html">Обзор</a></li>
+          <li class="nav-item"><a class="nav-link active" href="collections.html">Коллекции</a></li>
+          <li class="nav-item"><a class="nav-link" href="foryou.html">Для вас</a></li>
         </ul>
-        <div class="nav-actions d-flex align-items-center gap-3">
-          <a href="login.html" class="btn-ghost">Sign in</a>
-          <a href="register.html" class="btn-primary-vi">Get Started</a>
+        <div class="nav-actions d-flex align-items-center gap-2">
+          <a href="login.html" class="btn-ghost">Войти</a>
+          <a href="register.html" class="btn-primary-vi">Начать</a>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- COLLECTIONS VIEW -->
+  <!-- Список коллекций -->
   <div id="collectionsView">
     <div class="collections-hero">
       <div class="container-fluid px-4">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
           <div>
-            <h1 class="section-title">Collections</h1>
-            <p class="section-sub mt-1">Your saved image boards</p>
+            <h1 class="section-title">Мои коллекции</h1>
+            <p class="section-sub mt-1">Ваши доски с сохранёнными образами</p>
           </div>
           <button class="btn-new-collection" id="newCollectionBtn">
-            <i class="bi bi-plus-lg"></i> New Collection
+            <i class="bi bi-plus-lg"></i> Новая коллекция
           </button>
         </div>
       </div>
@@ -77,53 +56,50 @@
     </div>
   </div>
 
-  <!-- COLLECTION DETAIL VIEW -->
-  <div id="detailView" class="collection-detail" style="padding-top: calc(var(--nav-h) + 32px);">
+  <!-- Детали коллекции -->
+  <div id="detailView" class="collection-detail" style="padding-top:calc(var(--nav-h) + 32px);">
     <div class="container-fluid px-4">
-      <button class="back-btn" id="backBtn"><i class="bi bi-arrow-left"></i> All Collections</button>
+      <button class="back-btn" id="backBtn"><i class="bi bi-arrow-left"></i> Все коллекции</button>
       <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
         <div>
           <h2 class="section-title" id="detailTitle"></h2>
           <p class="section-sub" id="detailCount"></p>
         </div>
-        <button class="delete-col-btn" id="deleteColBtn">
-          <i class="bi bi-trash3"></i> Delete Collection
-        </button>
+        <button class="delete-col-btn" id="deleteColBtn"><i class="bi bi-trash3"></i> Удалить</button>
       </div>
       <div class="masonry-grid" id="detailGrid"></div>
       <div id="detailEmpty" style="display:none;" class="empty-state">
         <div class="empty-icon"><i class="bi bi-images"></i></div>
-        <h3>Empty collection</h3>
-        <p>Save images from the Explore page to fill this collection.</p>
-        <a href="explore.html" class="btn-primary-vi mt-2">Explore images</a>
+        <h3>Коллекция пуста</h3>
+        <p>Сохраняйте образы со страницы «Обзор», чтобы заполнить эту коллекцию.</p>
+        <a href="explore.html" class="btn-primary-vi mt-2">Смотреть образы</a>
       </div>
     </div>
   </div>
 
-  <!-- NEW COLLECTION MODAL -->
+  <!-- MODAL: Новая коллекция -->
   <div class="modal fade" id="newCollectionModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content vi-modal p-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h5 class="mb-0" style="font-family:var(--font-display);font-weight:700;">New Collection</h5>
+          <h5 class="mb-0" style="font-family:var(--font-display);font-weight:700;">Новая коллекция</h5>
           <button class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="form-group-vi">
-          <label class="form-label-vi">Collection Name</label>
-          <input type="text" class="form-input-vi" id="newColName" placeholder="e.g. Architecture Inspo" maxlength="48" />
-          <div class="form-error" id="newColError">Please enter a name</div>
+          <label class="form-label-vi">Название</label>
+          <input type="text" class="form-input-vi" id="newColName" placeholder="например, Осенние образы" maxlength="48" />
+          <div class="form-error" id="newColError">Введите название</div>
         </div>
-        <button class="form-submit-vi" id="createColBtn">Create Collection</button>
+        <button class="form-submit-vi" id="createColBtn">Создать коллекцию</button>
       </div>
     </div>
   </div>
 
-  <!-- COLLECTION MODAL (for save-to) -->
   <div class="modal fade" id="collectionModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content vi-modal p-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="mb-0" style="font-family:var(--font-display);font-weight:700;">Save to…</h5>
+          <h5 class="mb-0" style="font-family:var(--font-display);font-weight:700;">Сохранить в…</h5>
           <button class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="collection-select-list" id="collectionSelectList"></div>
@@ -132,11 +108,9 @@
   </div>
 
   <div class="vi-toast" id="viToast"></div>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../script.js"></script>
   <script>
-    // ─── Collections Page ──────────────────────
     let activeCollectionId = null;
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -150,30 +124,23 @@
 
       document.getElementById('createColBtn').addEventListener('click', () => {
         const name = document.getElementById('newColName').value.trim();
-        if (!name) {
-          document.getElementById('newColError').classList.add('show');
-          return;
-        }
+        if (!name) { document.getElementById('newColError').classList.add('show'); return; }
         const cols = getCollections();
         const newCol = { id: `col_${Date.now()}`, name, images: [] };
         cols.push(newCol);
-        Store.set('vi_collections', cols);
+        Store.set('mh_collections', cols);
         bootstrap.Modal.getInstance(document.getElementById('newCollectionModal')).hide();
-        showToast(`✓ "${name}" created`);
+        showToast(`✓ «${name}» создана`);
         renderCollections();
       });
 
       document.getElementById('backBtn').addEventListener('click', showCollectionsView);
 
       document.getElementById('deleteColBtn').addEventListener('click', () => {
-        if (!activeCollectionId || activeCollectionId === 'default') {
-          showToast('Cannot delete default collection');
-          return;
-        }
-        if (!confirm('Delete this collection? Images won\'t be removed from your saves.')) return;
-        let cols = getCollections().filter(c => c.id !== activeCollectionId);
-        Store.set('vi_collections', cols);
-        showToast('Collection deleted');
+        if (!activeCollectionId || activeCollectionId === 'default') { showToast('Нельзя удалить основную коллекцию'); return; }
+        if (!confirm('Удалить эту коллекцию? Образы останутся в сохранениях.')) return;
+        Store.set('mh_collections', getCollections().filter(c => c.id !== activeCollectionId));
+        showToast('Коллекция удалена');
         showCollectionsView();
         renderCollections();
       });
@@ -182,34 +149,24 @@
     function renderCollections() {
       const grid = document.getElementById('collectionsGrid');
       const cols = getCollections();
-
-      if (cols.length === 0) {
-        grid.innerHTML = `
-          <div class="empty-state" style="grid-column:1/-1;">
-            <div class="empty-icon"><i class="bi bi-folder2-open"></i></div>
-            <h3>No collections yet</h3>
-            <p>Create a collection to organize your saved images.</p>
-          </div>
-        `;
+      if (!cols.length) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-icon"><i class="bi bi-folder2-open"></i></div><h3>Нет коллекций</h3><p>Создайте коллекцию, чтобы упорядочить сохранённые образы.</p></div>`;
         return;
       }
-
       grid.innerHTML = '';
       cols.forEach(col => {
         const card = document.createElement('div');
         card.className = 'collection-card';
         const imgs = col.images.slice(0, 4);
-        const previews = Array(4).fill(null).map((_, i) => imgs[i] ?
-          `<img src="${imgs[i].url}" alt="" loading="lazy" />` :
-          `<div class="preview-placeholder"><i class="bi bi-image"></i></div>`
+        const previews = Array(4).fill(null).map((_,i) => imgs[i]
+          ? `<img src="${imgs[i].url}" alt="" loading="lazy" />`
+          : `<div class="preview-placeholder"><i class="bi bi-image"></i></div>`
         );
         card.innerHTML = `
-          <div class="collection-preview">
-            ${previews.join('')}
-          </div>
+          <div class="collection-preview">${previews.join('')}</div>
           <div class="collection-info">
             <div class="collection-name">${col.name}</div>
-            <div class="collection-count">${col.images.length} image${col.images.length !== 1 ? 's' : ''}</div>
+            <div class="collection-count">${col.images.length} ${plural(col.images.length, 'образ','образа','образов')}</div>
           </div>
         `;
         card.addEventListener('click', () => openCollection(col.id));
@@ -217,44 +174,34 @@
       });
     }
 
+    function plural(n, one, few, many) {
+      if (n % 10 === 1 && n % 100 !== 11) return one;
+      if ([2,3,4].includes(n % 10) && ![12,13,14].includes(n % 100)) return few;
+      return many;
+    }
+
     function openCollection(id) {
-      const cols = getCollections();
-      const col = cols.find(c => c.id === id);
+      const col = getCollections().find(c => c.id === id);
       if (!col) return;
       activeCollectionId = id;
-
       document.getElementById('detailTitle').textContent = col.name;
-      document.getElementById('detailCount').textContent =
-        `${col.images.length} image${col.images.length !== 1 ? 's' : ''}`;
-      document.getElementById('deleteColBtn').style.display =
-        id === 'default' ? 'none' : 'inline-flex';
-
+      document.getElementById('detailCount').textContent = `${col.images.length} ${plural(col.images.length,'образ','образа','образов')}`;
+      document.getElementById('deleteColBtn').style.display = id === 'default' ? 'none' : 'inline-flex';
       const grid = document.getElementById('detailGrid');
       const empty = document.getElementById('detailEmpty');
       grid.innerHTML = '';
-
-      if (col.images.length === 0) {
-        empty.style.display = 'flex';
-        grid.style.display = 'none';
-      } else {
-        empty.style.display = 'none';
-        grid.style.display = '';
-        col.images.forEach(img => {
-          const fakePhoto = {
-            id: img.id,
-            urls: { small: img.url, regular: img.url, thumb: img.url },
-            alt_description: 'saved image',
-            width: 800, height: 600,
-            user: { name: img.author || 'Unknown', profile_image: { small: `https://i.pravatar.cc/32?u=${img.id}` }, links: { html: '#' } },
-            links: { html: '#', download: '#' },
-          };
-          grid.appendChild(buildCard(fakePhoto));
-        });
+      if (!col.images.length) { empty.style.display='flex'; grid.style.display='none'; }
+      else {
+        empty.style.display='none'; grid.style.display='';
+        col.images.forEach(img => grid.appendChild(buildCard({
+          id: img.id, urls:{small:img.url,regular:img.url,thumb:img.url}, alt_description:'образ', width:800, height:1000,
+          user:{name:img.author||'Автор',profile_image:{small:`https://i.pravatar.cc/32?u=${img.id}`},links:{html:'#'}},
+          links:{html:'#',download:'#'}
+        })));
       }
-
       document.getElementById('collectionsView').style.display = 'none';
       document.getElementById('detailView').classList.add('active');
-      window.scrollTo(0, 0);
+      window.scrollTo(0,0);
     }
 
     function showCollectionsView() {

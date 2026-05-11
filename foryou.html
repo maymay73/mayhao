@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>For You — Visual Inspiration</title>
+  <title>Для вас — Mayhao</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -12,72 +12,65 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg vi-navbar" id="mainNav">
     <div class="container-fluid px-4">
       <a class="navbar-brand vi-logo" href="../index.html">
-        <span class="logo-mark">VI</span>
-        <span class="logo-text">Visual<em>Inspiration</em></span>
+        <span class="logo-mark">MH</span>
+        <span class="logo-text">may<em>hao</em></span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
         <i class="bi bi-list"></i>
       </button>
       <div class="collapse navbar-collapse" id="navMenu">
         <ul class="navbar-nav mx-auto gap-1">
-          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="explore.html">Explore</a></li>
-          <li class="nav-item"><a class="nav-link" href="collections.html">Collections</a></li>
-          <li class="nav-item"><a class="nav-link active" href="foryou.html">For You</a></li>
+          <li class="nav-item"><a class="nav-link" href="../index.html">Главная</a></li>
+          <li class="nav-item"><a class="nav-link" href="explore.html">Обзор</a></li>
+          <li class="nav-item"><a class="nav-link" href="collections.html">Коллекции</a></li>
+          <li class="nav-item"><a class="nav-link active" href="foryou.html">Для вас</a></li>
         </ul>
-        <div class="nav-actions d-flex align-items-center gap-3">
-          <a href="login.html" class="btn-ghost">Sign in</a>
-          <a href="register.html" class="btn-primary-vi">Get Started</a>
+        <div class="nav-actions d-flex align-items-center gap-2">
+          <a href="login.html" class="btn-ghost">Войти</a>
+          <a href="register.html" class="btn-primary-vi">Начать</a>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
   <div class="foryou-hero">
     <div class="container-fluid px-4">
       <div class="d-flex align-items-end justify-content-between flex-wrap gap-3">
         <div>
-          <div class="hero-badge mb-3" style="display:inline-flex;">✦ Personalized</div>
-          <h1 class="section-title">Your Feed</h1>
-          <p class="section-sub mt-2">Based on images you've liked and saved</p>
+          <div class="hero-badge mb-3" style="display:inline-flex;">✦ Персональная лента</div>
+          <h1 class="section-title">Для вас</h1>
+          <p class="section-sub mt-1">Образы, подобранные на основе ваших лайков и сохранений</p>
         </div>
-        <div id="feedStats" class="d-flex gap-3" style="padding-bottom:4px;"></div>
+        <div id="feedStats" class="d-flex gap-4" style="padding-bottom:4px;"></div>
       </div>
     </div>
   </div>
 
-  <!-- TABS -->
   <div class="container-fluid px-4 pt-4">
-    <div class="d-flex gap-2 mb-4 flex-wrap" id="feedTabs">
-      <button class="filter-chip active" data-tab="recommended">Recommended</button>
-      <button class="filter-chip" data-tab="liked">Liked</button>
-      <button class="filter-chip" data-tab="saved">Saved</button>
+    <div class="d-flex gap-2 mb-4 flex-wrap">
+      <button class="filter-chip active" data-tab="recommended">Рекомендации</button>
+      <button class="filter-chip" data-tab="liked">Понравившиеся</button>
+      <button class="filter-chip" data-tab="saved">Сохранённые</button>
     </div>
   </div>
 
-  <!-- GRID -->
   <div class="page-main" style="padding-top:0;">
     <div class="container-fluid px-4">
-      <div id="feedContent">
-        <!-- Filled by JS -->
-      </div>
+      <div id="feedContent"></div>
       <div class="load-more-wrap">
-        <button class="btn-load-more" id="feedLoadMore" style="display:none;">Load more</button>
+        <button class="btn-load-more" id="feedLoadMore" style="display:none;">Загрузить ещё</button>
       </div>
     </div>
   </div>
 
-  <!-- COLLECTION MODAL -->
   <div class="modal fade" id="collectionModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content vi-modal p-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="mb-0" style="font-family:var(--font-display);font-weight:700;">Save to…</h5>
+          <h5 class="mb-0" style="font-family:var(--font-display);font-weight:700;">Сохранить в…</h5>
           <button class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="collection-select-list" id="collectionSelectList"></div>
@@ -86,11 +79,9 @@
   </div>
 
   <div class="vi-toast" id="viToast"></div>
-
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../script.js"></script>
   <script>
-    // ─── For You Page ───────────────────────────
     let activeTab = 'recommended';
     let recPage = 1;
 
@@ -98,9 +89,9 @@
       renderFeedStats();
       showTab('recommended');
 
-      document.querySelectorAll('#feedTabs .filter-chip').forEach(btn => {
+      document.querySelectorAll('.filter-chip[data-tab]').forEach(btn => {
         btn.addEventListener('click', () => {
-          document.querySelectorAll('#feedTabs .filter-chip').forEach(b => b.classList.remove('active'));
+          document.querySelectorAll('.filter-chip[data-tab]').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           activeTab = btn.dataset.tab;
           recPage = 1;
@@ -117,15 +108,14 @@
     function renderFeedStats() {
       const liked = Object.keys(getLiked()).length;
       const saved = Object.keys(getSaved()).length;
-      const stats = document.getElementById('feedStats');
-      stats.innerHTML = `
+      document.getElementById('feedStats').innerHTML = `
         <div style="text-align:center;">
           <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;">${liked}</div>
-          <div style="font-size:0.78rem;color:var(--gray-500);">Liked</div>
+          <div style="font-size:0.78rem;color:var(--gray-500);">Лайков</div>
         </div>
         <div style="text-align:center;">
           <div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;">${saved}</div>
-          <div style="font-size:0.78rem;color:var(--gray-500);">Saved</div>
+          <div style="font-size:0.78rem;color:var(--gray-500);">Сохранено</div>
         </div>
       `;
     }
@@ -133,142 +123,79 @@
     function showTab(tab) {
       const content = document.getElementById('feedContent');
       document.getElementById('feedLoadMore').style.display = 'none';
-
-      if (tab === 'recommended') {
-        loadRecommended(1, false);
-      } else if (tab === 'liked') {
-        showLikedGrid(content);
-      } else if (tab === 'saved') {
-        showSavedGrid(content);
-      }
+      if (tab === 'recommended') loadRecommended(1, false);
+      else if (tab === 'liked') showLikedGrid(content);
+      else if (tab === 'saved') showSavedGrid(content);
     }
 
-    /** Build topics from liked/saved image tags */
     function getPersonalizedTopics() {
       const liked = getLiked();
       const saved = getSaved();
       const all = [...Object.values(liked), ...Object.values(saved)];
       const tags = all.flatMap(img => (img.tags || '').split(' ')).filter(t => t.length > 3);
-
-      if (tags.length === 0) return ['nature photography', 'architecture', 'portrait', 'abstract art'];
-
-      // Pick 4 most frequent tags
+      if (tags.length === 0) return ['fashion model outfit', 'street style', 'minimalist fashion', 'editorial luxury'];
       const freq = {};
       tags.forEach(t => { freq[t] = (freq[t] || 0) + 1; });
-      return Object.entries(freq)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 4)
-        .map(([t]) => t);
+      return Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,4).map(([t])=>t + ' fashion');
     }
 
     async function loadRecommended(page, append) {
       const content = document.getElementById('feedContent');
       const topics = getPersonalizedTopics();
-
       if (!append) {
         content.innerHTML = `<div class="masonry-grid" id="recGrid">${
-          Array(10).fill(0).map((_, i) =>
-            `<div class="skeleton-card ${i % 3 === 1 ? 'tall' : ''}"></div>`
-          ).join('')
+          Array(10).fill(0).map((_,i)=>`<div class="skeleton-card ${i%3===1?'tall':''}"></div>`).join('')
         }</div>`;
       }
-
       const topic = topics[Math.floor(Math.random() * topics.length)];
-      const photos = await API.search(topic, page);
-
+      const data = await API.search(topic, page);
       let grid = document.getElementById('recGrid');
       if (!grid) {
         grid = document.createElement('div');
-        grid.className = 'masonry-grid';
-        grid.id = 'recGrid';
-        content.innerHTML = '';
-        content.appendChild(grid);
-      } else if (!append) {
-        grid.innerHTML = '';
-      }
+        grid.className = 'masonry-grid'; grid.id = 'recGrid';
+        content.innerHTML = ''; content.appendChild(grid);
+      } else if (!append) { grid.innerHTML = ''; }
 
-      if (photos.length === 0 && !append) {
-        content.innerHTML = emptyState(
-          'bi-stars',
-          'Nothing here yet',
-          'Like and save images to personalize your feed. We\'ll find similar content for you.',
-          'explore.html',
-          'Start Exploring'
-        );
+      if (data.results.length === 0 && !append) {
+        content.innerHTML = emptyState('bi-stars','Пока пусто','Лайкайте и сохраняйте образы, чтобы получать персональные рекомендации.','explore.html','Начать изучение');
         return;
       }
-
-      photos.forEach(p => grid.appendChild(buildCard(p)));
-      if (photos.length > 0) {
+      data.results.forEach(p => grid.appendChild(buildCard(p)));
+      if (data.results.length > 0) {
         document.getElementById('feedLoadMore').style.display = 'inline-flex';
-      }
-
-      // Topic indicator
-      if (!append) {
-        const indicator = document.createElement('p');
-        indicator.style.cssText = 'font-size:0.78rem;color:var(--gray-400);margin-bottom:12px;';
-        indicator.textContent = `Showing results for "${topic}" based on your taste`;
-        content.insertBefore(indicator, grid);
+        if (!append) {
+          const ind = document.createElement('p');
+          ind.style.cssText = 'font-size:0.78rem;color:var(--gray-400);margin-bottom:12px;';
+          ind.textContent = `Подбор по теме «${topic}»`;
+          content.insertBefore(ind, grid);
+        }
       }
     }
 
+    function fakePhoto(img) {
+      return { id: img.id, urls: { small: img.url, regular: img.original||img.url, thumb: img.url }, alt_description: img.tags||'образ', width: 800, height: 1000, user: { name: img.author||'Автор', profile_image: { small: `https://i.pravatar.cc/32?u=${img.id}` }, links: { html: '#' } }, links: { html: '#', download: '#' } };
+    }
+
     function showLikedGrid(content) {
-      const liked = getLiked();
-      const items = Object.values(liked).sort((a, b) => b.likedAt - a.likedAt);
-      if (items.length === 0) {
-        content.innerHTML = emptyState('bi-heart', 'No liked images', 'Tap the heart on any image to like it.', 'explore.html', 'Explore images');
-        return;
-      }
-      const grid = document.createElement('div');
-      grid.className = 'masonry-grid';
-      items.forEach(img => {
-        const fakePhoto = {
-          id: img.id,
-          urls: { small: img.url, regular: img.original || img.url, thumb: img.url },
-          alt_description: img.tags || 'liked image',
-          width: 800, height: 600,
-          user: { name: img.author || 'Unknown', profile_image: { small: `https://i.pravatar.cc/32?u=${img.id}` }, links: { html: '#' } },
-          links: { html: '#', download: '#' },
-        };
-        grid.appendChild(buildCard(fakePhoto));
-      });
-      content.innerHTML = `<p style="font-size:0.78rem;color:var(--gray-400);margin-bottom:12px;">${items.length} liked image${items.length !== 1 ? 's' : ''}</p>`;
+      const items = Object.values(getLiked()).sort((a,b)=>b.likedAt-a.likedAt);
+      if (!items.length) { content.innerHTML = emptyState('bi-heart','Нет понравившихся','Нажимайте ♥ на любом образе, чтобы сохранить его здесь.','explore.html','Смотреть образы'); return; }
+      const grid = document.createElement('div'); grid.className = 'masonry-grid';
+      items.forEach(img => grid.appendChild(buildCard(fakePhoto(img))));
+      content.innerHTML = `<p style="font-size:0.78rem;color:var(--gray-400);margin-bottom:12px;">${items.length} понравившихся</p>`;
       content.appendChild(grid);
     }
 
     function showSavedGrid(content) {
-      const saved = getSaved();
-      const items = Object.values(saved).sort((a, b) => b.savedAt - a.savedAt);
-      if (items.length === 0) {
-        content.innerHTML = emptyState('bi-bookmark', 'No saved images', 'Tap the bookmark on any image to save it to a collection.', 'explore.html', 'Explore images');
-        return;
-      }
-      const grid = document.createElement('div');
-      grid.className = 'masonry-grid';
-      items.forEach(img => {
-        const fakePhoto = {
-          id: img.id,
-          urls: { small: img.url, regular: img.original || img.url, thumb: img.url },
-          alt_description: 'saved image',
-          width: 800, height: 600,
-          user: { name: img.author || 'Unknown', profile_image: { small: `https://i.pravatar.cc/32?u=${img.id}` }, links: { html: '#' } },
-          links: { html: '#', download: '#' },
-        };
-        grid.appendChild(buildCard(fakePhoto));
-      });
-      content.innerHTML = `<p style="font-size:0.78rem;color:var(--gray-400);margin-bottom:12px;">${items.length} saved image${items.length !== 1 ? 's' : ''}</p>`;
+      const items = Object.values(getSaved()).sort((a,b)=>b.savedAt-a.savedAt);
+      if (!items.length) { content.innerHTML = emptyState('bi-bookmark','Нет сохранённых','Нажимайте 🔖 на любом образе, чтобы сохранить его в коллекцию.','explore.html','Смотреть образы'); return; }
+      const grid = document.createElement('div'); grid.className = 'masonry-grid';
+      items.forEach(img => grid.appendChild(buildCard(fakePhoto(img))));
+      content.innerHTML = `<p style="font-size:0.78rem;color:var(--gray-400);margin-bottom:12px;">${items.length} сохранённых</p>`;
       content.appendChild(grid);
     }
 
     function emptyState(icon, title, text, link, linkLabel) {
-      return `
-        <div class="empty-state">
-          <div class="empty-icon"><i class="bi ${icon}"></i></div>
-          <h3>${title}</h3>
-          <p>${text}</p>
-          <a href="${link}" class="btn-primary-vi mt-2">${linkLabel}</a>
-        </div>
-      `;
+      return `<div class="empty-state"><div class="empty-icon"><i class="bi ${icon}"></i></div><h3>${title}</h3><p>${text}</p><a href="${link}" class="btn-primary-vi mt-2">${linkLabel}</a></div>`;
     }
   </script>
 </body>

@@ -1,105 +1,94 @@
 /* ============================================
-   VISUAL INSPIRATION — script.js
-   Core functionality for all pages
+   MAYHAO — script.js
+   Fashion & Style Visual Platform
    ============================================ */
 
 // ─── CONFIG ───────────────────────────────────
 const CONFIG = {
-  // Demo key — replace with your own from unsplash.com/oauth/applications
   UNSPLASH_KEY: 'ygOoSuYEyR7iHuBJixAL5H5UrF1vf4yQoKYhzJF93ew',
   BASE_URL: 'https://api.unsplash.com',
   PER_PAGE: 20,
 };
 
-// ─── STORAGE HELPERS ──────────────────────────
+// Модные запросы для Unsplash — дают хорошие результаты по моде
+const FASHION_QUERIES = [
+  'fashion style outfit',
+  'street fashion clothing',
+  'luxury fashion editorial',
+  'model runway fashion',
+  'minimalist fashion aesthetic',
+  'urban style clothing',
+];
+
+// ─── ХРАНИЛИЩЕ ─────────────────────────────────
 const Store = {
   get: (key) => JSON.parse(localStorage.getItem(key) || 'null'),
   set: (key, val) => localStorage.setItem(key, JSON.stringify(val)),
-  update: (key, fn, def) => {
-    const cur = Store.get(key) ?? def;
-    Store.set(key, fn(cur));
-    return Store.get(key);
-  },
 };
 
 // ─── API ──────────────────────────────────────
 const API = {
-  /**
-   * Search photos by keyword
-   * @param {string} query
-   * @param {number} page
-   * @returns {Promise<object[]>}
-   */
-  async search(query, page = 1) {
+  /** Поиск фотографий */
+  async search(query, page = 1, orientation = '', color = '') {
     try {
-      const url = `${CONFIG.BASE_URL}/search/photos?query=${encodeURIComponent(query)}&per_page=${CONFIG.PER_PAGE}&page=${page}&client_id=${CONFIG.UNSPLASH_KEY}`;
+      let url = `${CONFIG.BASE_URL}/search/photos?query=${encodeURIComponent(query)}&per_page=${CONFIG.PER_PAGE}&page=${page}&client_id=${CONFIG.UNSPLASH_KEY}`;
+      if (orientation) url += `&orientation=${orientation}`;
+      if (color) url += `&color=${color}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error('API error');
       const data = await res.json();
-      return data.results || [];
+      return { results: data.results || [], total: data.total || 0 };
     } catch (e) {
       console.warn('Search failed, using demo images', e);
-      return getDemoImages(query);
+      return { results: getDemoImages(query), total: 12 };
     }
   },
 
-  /**
-   * Get random photos
-   * @param {number} count
-   * @param {string} [topic]
-   * @returns {Promise<object[]>}
-   */
-  async random(count = 12, topic = '') {
+  /** Случайные фотографии */
+  async random(count = 12, topic = 'fashion style') {
     try {
-      let url = `${CONFIG.BASE_URL}/photos/random?count=${count}&client_id=${CONFIG.UNSPLASH_KEY}`;
-      if (topic) url += `&query=${encodeURIComponent(topic)}`;
+      const url = `${CONFIG.BASE_URL}/photos/random?count=${count}&query=${encodeURIComponent(topic)}&client_id=${CONFIG.UNSPLASH_KEY}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error('API error');
       return await res.json();
     } catch (e) {
-      console.warn('Random fetch failed, using demo images', e);
-      return getDemoImages(topic || 'inspiration');
+      console.warn('Random fetch failed, demo mode', e);
+      return getDemoImages(topic);
     }
   },
 };
 
-// ─── DEMO / FALLBACK IMAGES ───────────────────
-/**
- * Returns placeholder images using picsum for offline/demo use
- * when Unsplash API key is not configured
- */
-function getDemoImages(seed = '') {
-  const seeds = [10, 20, 40, 50, 60, 70, 80, 100, 110, 130, 150, 160, 180, 200, 220];
+// ─── DEMO-ИЗОБРАЖЕНИЯ ─────────────────────────
+function getDemoImages(seed = 'fashion') {
+  const seeds = [10,20,40,50,60,70,80,100,110,130,150,160,180,200,220];
+  const names = ['Анна С.','Лея М.','Виктория Р.','Даша К.','Оливия В.'];
   return seeds.map((s, i) => ({
     id: `demo-${seed}-${i}`,
     urls: {
-      regular: `https://picsum.photos/seed/${seed}${s}/800/600`,
-      small: `https://picsum.photos/seed/${seed}${s}/400/300`,
-      thumb: `https://picsum.photos/seed/${seed}${s}/200/200`,
+      regular: `https://picsum.photos/seed/${seed}${s}/800/1000`,
+      small: `https://picsum.photos/seed/${seed}${s}/400/500`,
+      thumb: `https://picsum.photos/seed/${seed}${s}/200/250`,
     },
-    alt_description: `${seed} photo ${i + 1}`,
-    description: `Beautiful ${seed} image`,
-    width: 800, height: [400, 600, 500, 700, 450][i % 5],
+    alt_description: `${seed} style ${i + 1}`,
+    description: `Fashion look ${i + 1}`,
+    width: 800, height: [900,1200,800,1100,950][i % 5],
     user: {
-      name: ['Sophia Chen', 'Alex Rivera', 'Maya Patel', 'James Liu', 'Aria Stone'][i % 5],
+      name: names[i % 5],
       profile_image: { small: `https://i.pravatar.cc/32?img=${s}` },
       links: { html: '#' },
     },
     links: { html: '#', download: '#' },
-    likes: Math.floor(Math.random() * 500) + 10,
+    likes: Math.floor(Math.random() * 800) + 20,
   }));
 }
 
-// ─── CARD BUILDER ─────────────────────────────
-/**
- * Creates a masonry card DOM element from an Unsplash photo object
- * @param {object} photo
- * @returns {HTMLElement}
- */
+// ─── КАРТОЧКА ИЗОБРАЖЕНИЯ ─────────────────────
+const FASHION_LABELS = ['Тренд','Стиль','Образ','Мода','Луки','Бренд'];
+
 function buildCard(photo) {
   const liked = isLiked(photo.id);
   const saved = isSaved(photo.id);
-  const aspectRatio = photo.height / photo.width;
+  const label = FASHION_LABELS[Math.floor(Math.random() * FASHION_LABELS.length)];
 
   const card = document.createElement('div');
   card.className = 'img-card';
@@ -107,37 +96,37 @@ function buildCard(photo) {
   card.innerHTML = `
     <img
       src="${photo.urls.small}"
-      alt="${photo.alt_description || 'Inspiration image'}"
+      alt="${photo.alt_description || 'Модное фото'}"
       loading="lazy"
-      style="aspect-ratio: ${photo.width}/${photo.height};"
+      style="aspect-ratio:${photo.width}/${photo.height};"
     />
     <div class="card-overlay">
       <div class="card-actions">
-        <button class="card-btn like-btn ${liked ? 'liked' : ''}" title="Like">
+        <button class="card-btn like-btn ${liked ? 'liked' : ''}" title="Нравится">
           <i class="bi ${liked ? 'bi-heart-fill' : 'bi-heart'}"></i>
         </button>
-        <button class="card-btn save-btn ${saved ? 'saved' : ''}" title="Save">
+        <button class="card-btn save-btn ${saved ? 'saved' : ''}" title="Сохранить">
           <i class="bi ${saved ? 'bi-bookmark-fill' : 'bi-bookmark'}"></i>
         </button>
-        <a href="${photo.links.html}" target="_blank" class="card-btn" title="Open original">
+        <a href="${photo.links.html}" target="_blank" class="card-btn" title="Открыть">
           <i class="bi bi-arrow-up-right"></i>
         </a>
       </div>
-      <div class="card-author">
-        <img src="${photo.user.profile_image.small}" alt="${photo.user.name}" />
-        ${photo.user.name}
+      <div class="card-meta">
+        <div class="card-tag">${label}</div>
+        <div class="card-author">
+          <img src="${photo.user.profile_image.small}" alt="${photo.user.name}" />
+          ${photo.user.name}
+        </div>
       </div>
     </div>
   `;
 
-  // Like button
-  card.querySelector('.like-btn').addEventListener('click', (e) => {
+  card.querySelector('.like-btn').addEventListener('click', e => {
     e.stopPropagation();
     toggleLike(photo, card.querySelector('.like-btn'));
   });
-
-  // Save button
-  card.querySelector('.save-btn').addEventListener('click', (e) => {
+  card.querySelector('.save-btn').addEventListener('click', e => {
     e.stopPropagation();
     openSaveModal(photo, card.querySelector('.save-btn'));
   });
@@ -145,66 +134,56 @@ function buildCard(photo) {
   return card;
 }
 
-// ─── LIKE SYSTEM ──────────────────────────────
-function getLiked() { return Store.get('vi_liked') || {}; }
+// ─── ЛАЙКИ ────────────────────────────────────
+function getLiked() { return Store.get('mh_liked') || {}; }
 function isLiked(id) { return !!getLiked()[id]; }
 
 function toggleLike(photo, btn) {
   const liked = getLiked();
   const wasLiked = !!liked[photo.id];
-
   if (wasLiked) {
     delete liked[photo.id];
     btn.classList.remove('liked');
     btn.innerHTML = '<i class="bi bi-heart"></i>';
-    showToast('Removed from liked');
+    showToast('Убрано из понравившихся');
   } else {
     liked[photo.id] = {
-      id: photo.id,
-      url: photo.urls.small,
-      author: photo.user.name,
-      original: photo.urls.regular,
-      tags: photo.alt_description || '',
+      id: photo.id, url: photo.urls.small, author: photo.user.name,
+      original: photo.urls.regular, tags: photo.alt_description || '',
       likedAt: Date.now(),
     };
     btn.classList.add('liked');
     btn.innerHTML = '<i class="bi bi-heart-fill"></i>';
-    showToast('♥ Added to likes');
+    showToast('♥ Добавлено в понравившиеся');
   }
-  Store.set('vi_liked', liked);
+  Store.set('mh_liked', liked);
 }
 
-// ─── SAVE / COLLECTIONS SYSTEM ────────────────
-function getSaved() { return Store.get('vi_saved') || {}; }
+// ─── СОХРАНИТЬ / КОЛЛЕКЦИИ ────────────────────
+function getSaved() { return Store.get('mh_saved') || {}; }
 function isSaved(id) { return !!getSaved()[id]; }
-function getCollections() { return Store.get('vi_collections') || [{ id: 'default', name: 'My Saves', images: [] }]; }
+function getCollections() {
+  return Store.get('mh_collections') || [{ id: 'default', name: 'Мои сохранения', images: [] }];
+}
 
-let _pendingPhoto = null; // photo waiting to be saved
+let _pendingPhoto = null;
 
-/**
- * Opens the collection picker modal, or creates quick-save
- */
 function openSaveModal(photo, btn) {
   _pendingPhoto = photo;
   const saved = getSaved();
-  const wasInSaved = !!saved[photo.id];
-
-  if (wasInSaved) {
-    // Toggle: remove
+  if (saved[photo.id]) {
     delete saved[photo.id];
-    Store.set('vi_saved', saved);
+    Store.set('mh_saved', saved);
     btn.classList.remove('saved');
     btn.innerHTML = '<i class="bi bi-bookmark"></i>';
-    showToast('Removed from saves');
+    showToast('Убрано из сохранений');
     return;
   }
-
   const modal = document.getElementById('collectionModal');
   if (modal) {
     renderCollectionList();
     new bootstrap.Modal(modal).show();
   } else {
-    // Fallback: save to default
     saveToCollection(photo, 'default');
     btn.classList.add('saved');
     btn.innerHTML = '<i class="bi bi-bookmark-fill"></i>';
@@ -212,28 +191,18 @@ function openSaveModal(photo, btn) {
 }
 
 function saveToCollection(photo, collectionId) {
-  // Update saved map
   const saved = getSaved();
-  saved[photo.id] = {
-    id: photo.id, url: photo.urls.small,
-    original: photo.urls.regular,
-    author: photo.user.name,
-    collectionId,
-    savedAt: Date.now(),
-  };
-  Store.set('vi_saved', saved);
+  saved[photo.id] = { id: photo.id, url: photo.urls.small, original: photo.urls.regular, author: photo.user.name, collectionId, savedAt: Date.now() };
+  Store.set('mh_saved', saved);
 
-  // Update collection
   const cols = getCollections();
   const col = cols.find(c => c.id === collectionId);
   if (col && !col.images.find(i => i.id === photo.id)) {
     col.images.unshift({ id: photo.id, url: photo.urls.small, author: photo.user.name });
   }
-  Store.set('vi_collections', cols);
+  Store.set('mh_collections', cols);
+  showToast('✓ Сохранено в коллекцию');
 
-  showToast('✓ Saved to collection');
-
-  // Update any visible btn
   document.querySelectorAll(`.img-card[data-id="${photo.id}"] .save-btn`).forEach(b => {
     b.classList.add('saved');
     b.innerHTML = '<i class="bi bi-bookmark-fill"></i>';
@@ -248,24 +217,24 @@ function renderCollectionList() {
     <div class="collection-select-item" data-id="${col.id}">
       <i class="bi bi-folder2"></i>
       <span>${col.name}</span>
-      <span style="margin-left:auto;font-size:0.75rem;color:var(--gray-400)">${col.images.length} images</span>
+      <span style="margin-left:auto;font-size:0.75rem;color:var(--gray-400)">${col.images.length} фото</span>
     </div>
   `).join('') + `
     <div class="collection-select-item" data-id="__new__">
       <i class="bi bi-plus-circle"></i>
-      <span>Create new collection…</span>
+      <span>Создать новую коллекцию…</span>
     </div>
   `;
   list.querySelectorAll('.collection-select-item').forEach(item => {
     item.addEventListener('click', () => {
       const id = item.dataset.id;
       if (id === '__new__') {
-        const name = prompt('Collection name:');
+        const name = prompt('Название коллекции:');
         if (!name) return;
         const cols = getCollections();
         const newCol = { id: `col_${Date.now()}`, name, images: [] };
         cols.push(newCol);
-        Store.set('vi_collections', cols);
+        Store.set('mh_collections', cols);
         saveToCollection(_pendingPhoto, newCol.id);
       } else {
         saveToCollection(_pendingPhoto, id);
@@ -275,59 +244,48 @@ function renderCollectionList() {
   });
 }
 
-// ─── GRID LOADERS ─────────────────────────────
-/**
- * Load random images into a grid container (with skeleton removal)
- * @param {string} gridId - element id
- * @param {string} topic
- */
+// ─── ЗАГРУЗКА СЕТОК ───────────────────────────
 async function loadTrendingGrid(gridId, topic) {
   const grid = document.getElementById(gridId);
   if (!grid) return;
-
   const photos = await API.random(12, topic);
   grid.innerHTML = '';
   photos.forEach(p => grid.appendChild(buildCard(p)));
 }
 
-/**
- * Load images into a grid from search results
- */
-async function loadSearchGrid(gridId, query, page = 1) {
+async function loadSearchGrid(gridId, query, page = 1, orientation = '', color = '') {
   const grid = document.getElementById(gridId);
-  if (!grid) return [];
-
+  if (!grid) return { results: [], total: 0 };
   if (page === 1) {
-    grid.innerHTML = Array(8).fill('<div class="skeleton-card"></div>').join('');
-    // alternate heights
-    grid.querySelectorAll('.skeleton-card').forEach((s, i) => {
-      if (i % 3 === 1) s.classList.add('tall');
-    });
+    grid.innerHTML = Array(8).fill(0).map((_,i) =>
+      `<div class="skeleton-card ${i%3===1?'tall':i%5===4?'wide':''}"></div>`
+    ).join('');
   }
-
-  const photos = await API.search(query, page);
+  const data = await API.search(query, page, orientation, color);
   if (page === 1) grid.innerHTML = '';
-  photos.forEach(p => grid.appendChild(buildCard(p)));
-  return photos;
+  data.results.forEach(p => grid.appendChild(buildCard(p)));
+  return data;
 }
 
-// ─── FEATURED STRIP ───────────────────────────
+// ─── ПОЛОСА ФОТО ──────────────────────────────
 async function loadFeaturedStrip() {
   const strip = document.getElementById('featuredStrip');
   if (!strip) return;
-  const photos = await API.random(20, 'art design photography');
-  // Duplicate for seamless scroll
+  const photos = await API.random(20, 'fashion model style');
   const items = [...photos, ...photos].map(p => {
     const div = document.createElement('div');
     div.className = 'strip-item';
     div.innerHTML = `<img src="${p.urls.thumb || p.urls.small}" alt="" loading="lazy" />`;
-    div.addEventListener('click', () => window.location.href = `pages/explore.html?q=${encodeURIComponent(p.alt_description || 'art')}`);
+    div.addEventListener('click', () => {
+      const q = p.alt_description || 'fashion';
+      window.location.href = (location.pathname.includes('/pages/') ? '' : 'pages/') + `explore.html?q=${encodeURIComponent(q)}`;
+    });
     return div;
   });
   items.forEach(el => strip.appendChild(el));
 }
 
-// ─── MOOD CARDS ───────────────────────────────
+// ─── КАРТОЧКИ НАСТРОЕНИЯ ──────────────────────
 async function loadMoodCards() {
   const cards = document.querySelectorAll('.mood-card');
   for (const card of cards) {
@@ -339,21 +297,20 @@ async function loadMoodCards() {
       img.alt = q;
       card.insertBefore(img, card.firstChild);
     }
-    card.addEventListener('click', () => window.location.href = `pages/explore.html?q=${encodeURIComponent(q)}`);
+    card.addEventListener('click', () => {
+      const base = location.pathname.includes('/pages/') ? '' : 'pages/';
+      window.location.href = `${base}explore.html?q=${encodeURIComponent(q)}`;
+    });
   }
 }
 
-// ─── NAVBAR SCROLL EFFECT ─────────────────────
+// ─── НАВБАР: СКРОЛЛ ───────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   const nav = document.getElementById('mainNav');
-  if (nav) {
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 10);
-    });
-  }
+  if (nav) window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 10));
 });
 
-// ─── TOAST ────────────────────────────────────
+// ─── ТОСТ ─────────────────────────────────────
 let _toastTimer;
 function showToast(msg) {
   const t = document.getElementById('viToast');
@@ -361,88 +318,67 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(() => t.classList.remove('show'), 2400);
+  _toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// ─── FORM VALIDATION ──────────────────────────
-/**
- * Attach validation to an auth form
- */
+// ─── ВАЛИДАЦИЯ ФОРМ ───────────────────────────
 function setupFormValidation(formId, rules) {
   const form = document.getElementById(formId);
   if (!form) return;
-
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', e => {
     e.preventDefault();
     let valid = true;
-
     rules.forEach(({ field, validates, message }) => {
       const input = form.querySelector(`[name="${field}"]`);
       const errEl = form.querySelector(`[data-error="${field}"]`);
       if (!input) return;
-
       const ok = validates(input.value);
       input.classList.toggle('invalid', !ok);
-      if (errEl) {
-        errEl.textContent = message;
-        errEl.classList.toggle('show', !ok);
-      }
+      if (errEl) { errEl.textContent = message; errEl.classList.toggle('show', !ok); }
       if (!ok) valid = false;
     });
-
-    if (valid) form.dispatchEvent(new Event('vi:valid'));
+    if (valid) form.dispatchEvent(new Event('mh:valid'));
   });
 }
 
-// ─── AUTH SIMULATION ──────────────────────────
-function getUsers() { return Store.get('vi_users') || []; }
-function getCurrentUser() { return Store.get('vi_current_user'); }
+// ─── АУТЕНТИФИКАЦИЯ ───────────────────────────
+function getUsers() { return Store.get('mh_users') || []; }
+function getCurrentUser() { return Store.get('mh_current_user'); }
 
 function registerUser(username, email, password) {
   const users = getUsers();
-  if (users.find(u => u.email === email)) return { error: 'Email already registered' };
+  if (users.find(u => u.email === email)) return { error: 'Email уже зарегистрирован' };
   const user = { id: `u_${Date.now()}`, username, email, password, createdAt: Date.now() };
   users.push(user);
-  Store.set('vi_users', users);
-  Store.set('vi_current_user', { id: user.id, username, email });
+  Store.set('mh_users', users);
+  Store.set('mh_current_user', { id: user.id, username, email });
   return { ok: true };
 }
 
 function loginUser(email, password) {
   const users = getUsers();
   const user = users.find(u => u.email === email && u.password === password);
-  if (!user) return { error: 'Invalid email or password' };
-  Store.set('vi_current_user', { id: user.id, username: user.username, email });
+  if (!user) return { error: 'Неверный email или пароль' };
+  Store.set('mh_current_user', { id: user.id, username: user.username, email });
   return { ok: true };
 }
 
-function logoutUser() {
-  localStorage.removeItem('vi_current_user');
-}
+function logoutUser() { localStorage.removeItem('mh_current_user'); }
 
-// ─── NAVBAR AUTH STATE ────────────────────────
+// ─── НАВБАР: СОСТОЯНИЕ АВТОРИЗАЦИИ ───────────
 function updateNavAuth() {
   const user = getCurrentUser();
-  const signIn = document.querySelector('a[href*="login"]');
-  const getStarted = document.querySelector('a[href*="register"]');
-  if (!user || !signIn) return;
+  // Обновляем ссылки "Войти" → имя пользователя
+  const signInLinks = document.querySelectorAll('a.btn-ghost[href*="login"]');
+  const getStartedLinks = document.querySelectorAll('a.btn-primary-vi[href*="register"]');
 
-  signIn.textContent = user.username || 'Account';
-  signIn.href = '#';
-  signIn.addEventListener('click', e => {
-    e.preventDefault();
-    if (confirm('Sign out?')) { logoutUser(); location.reload(); }
-  });
-  if (getStarted) getStarted.style.display = 'none';
+  if (user) {
+    signInLinks.forEach(a => {
+      a.textContent = user.username;
+      a.href = (location.pathname.includes('/pages/') ? '' : 'pages/') + 'profile.html';
+    });
+    getStartedLinks.forEach(a => a.style.display = 'none');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', updateNavAuth);
-
-// ─── RELATIVE PATH HELPER ─────────────────────
-/**
- * Returns correct path prefix based on current depth
- * so assets load correctly from /pages/ subdirectory
- */
-function rootPath() {
-  return location.pathname.includes('/pages/') ? '../' : './';
-}

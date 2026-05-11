@@ -1,159 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign In — Visual Inspiration</title>
+  <title>Вход — Mayhao</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="../style.css" />
-  <style>
-    .auth-bg-split {
-      position: fixed; right: 0; top: 0; bottom: 0;
-      width: 42%; background: var(--black);
-      overflow: hidden;
-      display: none;
-    }
-    @media (min-width: 992px) { .auth-bg-split { display: block; } }
-    .auth-bg-split img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
-    .auth-bg-quote {
-      position: absolute; bottom: 48px; left: 40px; right: 40px;
-      color: rgba(255,255,255,0.9);
-      font-family: var(--font-display); font-size: 1.4rem; font-weight: 700;
-      line-height: 1.4;
-    }
-    .auth-bg-quote span { color: var(--accent); }
-    .auth-page { min-height: 100vh; background: var(--white); }
-    .auth-left {
-      min-height: 100vh; display: flex; align-items: center; justify-content: center;
-      padding: 40px 20px;
-    }
-    @media (min-width: 992px) { .auth-left { width: 58%; } }
-    .auth-left-inner { width: 100%; max-width: 400px; }
-  </style>
 </head>
 <body>
+<div class="d-flex" style="min-height:100vh;">
+  <div class="auth-left">
+    <div class="auth-left-inner">
+      <a href="../index.html" class="vi-logo auth-logo">
+        <span class="logo-mark">MH</span>
+        <span class="logo-text">may<em>hao</em></span>
+      </a>
+      <h1 class="auth-title">Добро пожаловать.</h1>
+      <p class="auth-sub">Войдите, чтобы получить доступ к коллекциям и персональной ленте моды.</p>
 
-  <div class="d-flex" style="min-height:100vh;">
-    <!-- LEFT SIDE -->
-    <div class="auth-left">
-      <div class="auth-left-inner">
-        <a href="../index.html" class="vi-logo d-inline-flex mb-8" style="margin-bottom:40px;">
-          <span class="logo-mark">VI</span>
-          <span class="logo-text">Visual<em>Inspiration</em></span>
-        </a>
+      <div id="loginError" class="alert alert-danger py-2 px-3 rounded-3 mb-3" style="display:none;font-size:0.875rem;"></div>
 
-        <h1 class="auth-title">Welcome back.</h1>
-        <p class="auth-sub">Sign in to access your collections and personalized feed.</p>
-
-        <div id="loginError" class="alert alert-danger py-2 px-3 rounded-3 mb-3" style="display:none;font-size:0.875rem;"></div>
-
-        <form id="loginForm" novalidate>
-          <div class="form-group-vi">
-            <label class="form-label-vi" for="loginEmail">Email</label>
-            <input type="email" id="loginEmail" name="email" class="form-input-vi" placeholder="you@example.com" autocomplete="email" />
-            <div class="form-error" data-error="email">Please enter a valid email</div>
-          </div>
-          <div class="form-group-vi">
-            <label class="form-label-vi" for="loginPassword">Password</label>
-            <input type="password" id="loginPassword" name="password" class="form-input-vi" placeholder="Your password" autocomplete="current-password" />
-            <button type="button" class="password-toggle" id="togglePwd">
-              <i class="bi bi-eye"></i>
-            </button>
-            <div class="form-error" data-error="password">Password must be at least 6 characters</div>
-          </div>
-
-          <div class="d-flex justify-content-end mb-3">
-            <a href="reset.html" style="font-size:0.8rem;color:var(--accent);">Forgot password?</a>
-          </div>
-
-          <button type="submit" class="form-submit-vi">Sign In</button>
-        </form>
-
-        <div class="divider">or</div>
-
-        <button class="btn-ghost w-100 d-flex align-items-center justify-content-center gap-2" onclick="demoLogin()">
-          <i class="bi bi-lightning-charge-fill" style="color:var(--accent);"></i>
-          Continue as Demo User
-        </button>
-
-        <div class="form-footer mt-4">
-          Don't have an account? <a href="register.html">Sign up free</a>
+      <form id="loginForm" novalidate>
+        <div class="form-group-vi">
+          <label class="form-label-vi">Email</label>
+          <input type="email" name="email" class="form-input-vi" placeholder="вы@example.com" autocomplete="email" />
+          <div class="form-error" data-error="email">Введите корректный email</div>
         </div>
-      </div>
-    </div>
+        <div class="form-group-vi">
+          <label class="form-label-vi">Пароль</label>
+          <input type="password" id="loginPassword" name="password" class="form-input-vi" placeholder="Ваш пароль" autocomplete="current-password" />
+          <button type="button" class="password-toggle" id="togglePwd"><i class="bi bi-eye"></i></button>
+          <div class="form-error" data-error="password">Минимум 6 символов</div>
+        </div>
+        <div class="d-flex justify-content-end mb-3">
+          <a href="reset.html" style="font-size:0.8rem;color:var(--accent);">Забыли пароль?</a>
+        </div>
+        <button type="submit" class="form-submit-vi">Войти</button>
+      </form>
 
-    <!-- RIGHT SIDE (decorative) -->
-    <div class="auth-bg-split">
-      <img src="https://picsum.photos/seed/auth-login/800/1200" alt="inspiration" id="authBgImg" />
-      <div class="auth-bg-quote">
-        "Creativity is seeing<br />what others see and<br /><span>thinking something different.</span>"
+      <div class="divider">или</div>
+
+      <button class="btn-ghost w-100 d-flex align-items-center justify-content-center gap-2" onclick="demoLogin()" style="padding:11px;">
+        <i class="bi bi-lightning-charge-fill" style="color:var(--accent);"></i>
+        Войти как демо-пользователь
+      </button>
+
+      <div class="form-footer mt-4">
+        Нет аккаунта? <a href="register.html">Зарегистрироваться</a>
       </div>
     </div>
   </div>
 
-  <div class="vi-toast" id="viToast"></div>
+  <div class="auth-bg-split">
+    <img src="https://picsum.photos/seed/fashion-login/800/1200" alt="мода" />
+    <div class="auth-bg-quote">
+      «Мода — это способ сказать<br />кто ты такой,<br /><span>не произнося ни слова.</span>»
+    </div>
+  </div>
+</div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // Password toggle
-      document.getElementById('togglePwd').addEventListener('click', () => {
-        const pwd = document.getElementById('loginPassword');
-        const icon = document.querySelector('#togglePwd i');
-        if (pwd.type === 'password') {
-          pwd.type = 'text';
-          icon.className = 'bi bi-eye-slash';
-        } else {
-          pwd.type = 'password';
-          icon.className = 'bi bi-eye';
-        }
-      });
-
-      // Form validation setup
-      setupFormValidation('loginForm', [
-        {
-          field: 'email',
-          validates: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
-          message: 'Please enter a valid email address',
-        },
-        {
-          field: 'password',
-          validates: v => v.length >= 6,
-          message: 'Password must be at least 6 characters',
-        },
-      ]);
-
-      document.getElementById('loginForm').addEventListener('vi:valid', () => {
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-        const result = loginUser(email, password);
-        if (result.error) {
-          const errEl = document.getElementById('loginError');
-          errEl.textContent = result.error;
-          errEl.style.display = 'block';
-        } else {
-          showToast('✓ Signed in successfully!');
-          setTimeout(() => window.location.href = '../index.html', 900);
-        }
-      });
+<div class="vi-toast" id="viToast"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../script.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('togglePwd').addEventListener('click', () => {
+      const pwd = document.getElementById('loginPassword');
+      const icon = document.querySelector('#togglePwd i');
+      pwd.type = pwd.type === 'password' ? 'text' : 'password';
+      icon.className = pwd.type === 'password' ? 'bi bi-eye' : 'bi bi-eye-slash';
     });
 
-    function demoLogin() {
-      // Register + login a demo user
-      const email = 'demo@visualinspiration.app';
-      const users = getUsers();
-      if (!users.find(u => u.email === email)) {
-        registerUser('Demo User', email, 'demo123');
+    setupFormValidation('loginForm', [
+      { field: 'email', validates: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), message: 'Введите корректный email' },
+      { field: 'password', validates: v => v.length >= 6, message: 'Минимум 6 символов' },
+    ]);
+
+    document.getElementById('loginForm').addEventListener('mh:valid', () => {
+      const email = document.getElementById('loginForm').querySelector('[name="email"]').value;
+      const password = document.getElementById('loginForm').querySelector('[name="password"]').value;
+      const result = loginUser(email, password);
+      if (result.error) {
+        const errEl = document.getElementById('loginError');
+        errEl.textContent = result.error;
+        errEl.style.display = 'block';
       } else {
-        loginUser(email, 'demo123');
+        showToast('✓ Вы вошли в аккаунт!');
+        setTimeout(() => window.location.href = '../index.html', 900);
       }
-      showToast('✓ Signed in as Demo User');
-      setTimeout(() => window.location.href = '../index.html', 900);
+    });
+  });
+
+  function demoLogin() {
+    const email = 'demo@mayhao.app';
+    const users = getUsers();
+    if (!users.find(u => u.email === email)) {
+      registerUser('Демо Пользователь', email, 'demo123');
+    } else {
+      loginUser(email, 'demo123');
     }
-  </script>
+    showToast('✓ Вы вошли как Демо Пользователь');
+    setTimeout(() => window.location.href = '../index.html', 900);
+  }
+</script>
 </body>
 </html>
